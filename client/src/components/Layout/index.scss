@@ -1,0 +1,140 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.home {
+  &_wrapper {
+    margin-top: 56px;
+  }
+  &__newMess {
+    position: fixed;
+    bottom: 16px;
+    right: 12px;
+    z-index: 999;
+    flex-direction: column;
+    &--button {
+      background-color: white;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 4px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      opacity: 0;
+      transform: scale(0);
+      will-change: opacity, transform;
+      transition: all 0.1s ease-in-out;
+      i {
+        font-size: 1.125rem;
+        line-height: 2.25rem;
+      }
+      &:hover {
+        background-color: $primary-background;
+        cursor: pointer;
+      }
+    }
+    &--option {
+      background-color: white;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 4px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      i {
+        font-size: 1.4375rem;
+      }
+      &:hover {
+        background-color: $primary-background;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.newMess {
+  background-color: $white-background;
+  z-index: 99;
+  width: 328px;
+  height: 455px;
+  position: fixed;
+  bottom: 0;
+  right: 73px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  hr {
+    opacity: 0.3;
+  }
+  &__title {
+    padding: 8px;
+    h4 {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      padding-left: 6px;
+    }
+    i {
+      font-size: 1.375rem;
+      width: 22px;
+      color: $primary-color;
+      text-align: center;
+      margin: 5px;
+      &:hover {
+        @include hover-icon;
+        border-radius: 50%;
+      }
+    }
+  }
+  &__search {
+    margin: 8px 16px;
+    input {
+      padding: 6px 2px;
+      margin-left: 8px;
+      line-height: 1.375rem;
+      font-size: 1rem;
+      border: none;
+      outline: none;
+    }
+  }
+  &__switch {
+    padding: 14px 16px;
+    > p {
+      font-size: 15px;
+    }
+  }
+  &__content {
+    padding: 0 6px;
+    height: 304px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 8px;
+      pointer-events: none;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      padding: 4px;
+      &:hover ::-webkit-scrollbar-track {
+        background: black;
+      }
+    }
+    &:hover::-webkit-scrollbar-thumb {
+      background: #cccccc;
+    }
+    > li {
+      transition: all 0.3s ease;
+      img {
+        @include image-person;
+        margin: 8px 12px 8px 8px;
+      }
+      p {
+        padding: 13px 0;
+        font-size: 0.9375rem;
+        font-weight: 600;
+      }
+      &:hover {
+        @include hover-content;
+      }
+    }
+  }
+}
+
+.showOption:hover .home__newMess--button {
+  opacity: 1;
+  transform: scale(1);
+}

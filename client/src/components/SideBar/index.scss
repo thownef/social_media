@@ -1,0 +1,86 @@
+@import "../../assets/scss/variables";
+@import "../../assets/scss/mixins";
+
+.sidebar {
+  height: calc(100vh - 56px);
+  overflow-y: scroll;
+  position: sticky;
+  top: 56px;
+  margin-left: 0.5rem;
+  margin-right: 1.75rem;
+  padding-top: 1rem;
+  z-index: 1;
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    pointer-events: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 1.25rem;
+    padding: 0.25rem;
+    &:hover ::-webkit-scrollbar-track {
+      background: black;
+    }
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    background: #cccccc;
+  }
+
+  > li {
+    transition: all 0.3s ease;
+    img {
+      @include image-person;
+      margin: 0.5rem 0.75rem 0.5rem 0.5rem;
+    }
+    p {
+      padding: 0.8rem 0;
+      font-size: 0.9375rem;
+      font-weight: 600;
+    }
+    &:hover {
+      @include hover-content;
+    }
+  }
+  &_hr {
+    @include hr-home;
+  }
+  &_shortcut {
+    padding: 0.875rem 0 0.125rem 0.5rem;
+    &_title {
+      @include title-menu;
+      padding: 0.375rem 0;
+    }
+    &_edit {
+      cursor: pointer;
+      font-size: 0.9375rem;
+      color: $primary-color;
+      display: none;
+      padding: 0.375rem 0.25rem;
+      border-radius: 0.25rem;
+      &:hover {
+        background-color: $hover-background;
+      }
+    }
+    &:hover .sidebar_shortcut_edit {
+      display: block;
+    }
+  }
+  &_info {
+    font-size: 0.75rem;
+    padding: 1rem 0;
+    width: 90%;
+    > li {
+      display: inline-block;
+      > a {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  &_spin {
+    padding: 0.375rem;
+    background-color: #e3e3e3;
+    border-radius: 50%;
+    margin: 0.375rem 0.75rem 0.375rem 0;
+  }
+}

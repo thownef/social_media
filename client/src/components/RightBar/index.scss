@@ -1,0 +1,87 @@
+@import "../../assets/scss/mixins";
+@import "../../assets/scss/variables";
+
+.rightbar {
+  height: calc(100vh - 56px);
+  overflow-y: scroll;
+  position: sticky;
+  top: 56px;
+  margin-left: 28px;
+  padding-bottom: 10px;
+  z-index: 1;
+  &::-webkit-scrollbar {
+    width: 8px;
+    pointer-events: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    padding: 4px;
+    &:hover ::-webkit-scrollbar-track {
+      background: black;
+    }
+  }
+  &:hover::-webkit-scrollbar-thumb {
+    background: #cccccc;
+  }
+  li {
+    transition: all 0.3s ease;
+    .friend {
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #31a24c;
+        border-radius: 50%;
+        bottom: 7px;
+        left: 33px;
+        border: 3px solid #f0f2f5;
+      }
+    }
+    img {
+      @include image-person;
+      margin: 8px 12px 8px 8px;
+      display: inline-block;
+      vertical-align: text-bottom;
+    }
+    span {
+      font-size: 0.9375rem;
+      margin-top: 8px;
+      margin-right: 4px;
+    }
+    p {
+      padding: 13px 0;
+      font-size: 0.9375rem;
+      font-weight: 600;
+    }
+    &:hover {
+      @include hover-content;
+    }
+  }
+  &_title {
+    padding: 20px 8px 4px;
+    height: 46px;
+    h3 {
+      @include title-menu;
+    }
+    &_icon {
+      height: 100%;
+      text-align: right;
+      i {
+        padding: 9px 0;
+        width: 32px;
+        margin-top: -10px;
+        text-align: center;
+        border-radius: 50%;
+        &:hover {
+          @include hover-icon;
+        }
+      }
+    }
+  }
+
+  hr {
+    @include hr-home;
+  }
+}

@@ -1,0 +1,30 @@
+@import "./variables";
+
+@mixin image-person {
+  width: 2.25rem;
+  height: 2.25rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+@mixin hover-content {
+  background-color: $hover-background;
+  cursor: pointer;
+  border-radius: 0.5rem;
+}
+
+@mixin hover-icon {
+  background-color: $hover-icon;
+  cursor: pointer;
+}
+
+@mixin hr-home {
+  margin: 0.5rem 0.5rem 0;
+  opacity: 0.3;
+}
+
+@mixin title-menu {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: $second-color;
+}

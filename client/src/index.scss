@@ -1,0 +1,27 @@
+@import "./assets/scss/variables";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+  color: #333;
+  background-color: $primary-background;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
+  &:hover {
+    color: unset;
+  }
+}
+
+ul {
+  list-style: none;
+}
