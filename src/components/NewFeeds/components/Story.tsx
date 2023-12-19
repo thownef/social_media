@@ -1,5 +1,5 @@
 import "./index.scss";
-import { Row } from "antd";
+import { Col, Row } from "antd";
 import profileT from "../../../assets/images/profileT.jpg";
 import { useEffect, useRef } from "react";
 
@@ -37,32 +37,41 @@ const Story: React.FC<StoryProps> = ({}) => {
       >
         <SwiperSlide>
           <Row>
-            <div className="story__mcard">
-              <div className="story__mcard--image">
-                <img src={profileT} alt="" />
+            <Col span={5}>
+              <div className="story__mcard">
+                <div className="story__mcard--image">
+                  <img src={profileT} alt="" />
+                </div>
+                <p>Tạo tin</p>
+                <i className="fa-solid fa-circle-plus"></i>
               </div>
-              <p>Tạo tin</p>
-              <i className="fa-solid fa-circle-plus"></i>
-            </div>
+            </Col>
 
             {firstData.map((item) => (
-              <StoryItem key={item.id} item={item} />
+              <Col span={5}>
+                <StoryItem key={item.id} item={item} />
+              </Col>
             ))}
           </Row>
         </SwiperSlide>
 
         <SwiperSlide>
           <Row>
-            <div className="story__mcard">
-              <div className="story__mcard--image">
-                <img src={profileT} alt="" />
+            <Col offset={1} />
+            <Col span={5}>
+              <div className="story__mcard">
+                <div className="story__mcard--image">
+                  <img src={profileT} alt="" />
+                </div>
+                <p>Tạo tin</p>
+                <i className="fa-solid fa-circle-plus"></i>
               </div>
-              <p>Tạo tin</p>
-              <i className="fa-solid fa-circle-plus"></i>
-            </div>
+            </Col>
 
             {firstData.map((item) => (
-              <StoryItem key={item.id} item={item} />
+              <Col span={5}>
+                <StoryItem key={item.id} item={item} />
+              </Col>
             ))}
           </Row>
         </SwiperSlide>
