@@ -10,13 +10,13 @@ const Home: React.FC<HomeProps> = ({}) => {
   return (
     <div className="home_container">
       <Row>
-        <Col span={6}>
+        <Col span={8}>
           <SideBar />
         </Col>
-        <Col span={12}>
+        <Col span={9}>
           <NewFeeds />
         </Col>
-        <Col span={6}>
+        <Col span={7}>
           <RightBar />
         </Col>
       </Row>

@@ -93,7 +93,7 @@ export const menuCenter: Menu_Config[] = [
     sm: 0,
     md: 0,
     lg: 12,
-    xl: 10,
+    xl: 9,
   },
   {
     minWidth: 576,

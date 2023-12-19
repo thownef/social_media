@@ -11,7 +11,7 @@ const TopBar: React.FC = () => {
     <>
       <Row className="topbar_container" align={"middle"}>
         {/* Left */}
-        <Col xs={5} sm={5} md={6} lg={6} xl={7} className="topbar_left">
+        <Col xs={5} sm={5} md={6} lg={6} xl={8} className="topbar_left">
           <Row align={"middle"} className="topbar_left">
             <Col xs={12} sm={10} md={6} lg={4} xl={3}>
               <Link to={ROUTES.HOME}>

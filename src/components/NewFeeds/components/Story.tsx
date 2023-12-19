@@ -1,7 +1,7 @@
 import "./index.scss";
 import { Row } from "antd";
 import profileT from "../../../assets/images/profileT.jpg";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { Navigation } from "swiper/modules";
 import { storyData } from "../../../mocks/dummyData";
@@ -15,7 +15,7 @@ import "swiper/css/pagination";
 interface StoryProps {}
 
 const Story: React.FC<StoryProps> = ({}) => {
-  const firstData = storyData.slice(0, 3);
+  const firstData = storyData.slice(0, 4);
   const midleData = storyData.slice(
     3,
     storyData.length - ((storyData.length - 3) % 4)
@@ -27,21 +27,46 @@ const Story: React.FC<StoryProps> = ({}) => {
   for (let i = 0; i < midleData.length; i += 4) {
     chunkedNames.push(midleData.slice(i, i + 4));
   }
-
-  const wrapperRef = useRef(null);
-
   return (
     <Row className="story__wrapper">
-      <div className="story__mcard" ref={wrapperRef}>
-        <div className="story__mcard--image">
-          <img src={profileT} alt="" />
-        </div>
-        <p>Tạo tin</p>
-        <i className="fa-solid fa-circle-plus"></i>
-      </div>
-      {storyData.map((item) => (
-        <StoryItem item={item} />
-      ))}
+      <Swiper
+        slidesPerView={1}
+        navigation={true}
+        modules={[Navigation]}
+        className="mySwiper"
+      >
+        <SwiperSlide>
+          <Row>
+            <div className="story__mcard">
+              <div className="story__mcard--image">
+                <img src={profileT} alt="" />
+              </div>
+              <p>Tạo tin</p>
+              <i className="fa-solid fa-circle-plus"></i>
+            </div>
+
+            {firstData.map((item) => (
+              <StoryItem key={item.id} item={item} />
+            ))}
+          </Row>
+        </SwiperSlide>
+
+        <SwiperSlide>
+          <Row>
+            <div className="story__mcard">
+              <div className="story__mcard--image">
+                <img src={profileT} alt="" />
+              </div>
+              <p>Tạo tin</p>
+              <i className="fa-solid fa-circle-plus"></i>
+            </div>
+
+            {firstData.map((item) => (
+              <StoryItem key={item.id} item={item} />
+            ))}
+          </Row>
+        </SwiperSlide>
+      </Swiper>
     </Row>
   );
 };
