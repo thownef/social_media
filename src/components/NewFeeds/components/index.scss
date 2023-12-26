@@ -4,8 +4,8 @@
   &__wrapper {
     height: 250px;
     margin: 0 -6px;
-    .swiper-slide {
-      // width: 148px !important;
+    :where(.css-dev-only-do-not-override-amq5gd).ant-row {
+      flex-flow: row;
     }
   }
   &__mcard {
