@@ -1,11 +1,23 @@
-import { StateCreator } from "zustand";
-
-export interface IsLoadingSlice {
-    isLoading: boolean;
-    setStatusLoading: (status: boolean) => void;
+import { createSlice } from '@reduxjs/toolkit'
+export interface LoadingState {
+  isLoading: boolean
 }
 
-export const createLoadingSlice: StateCreator<IsLoadingSlice, [], [], IsLoadingSlice> = (set) => ({
-    isLoading: false,
-    setStatusLoading: (status) => set(() => ({ isLoading: status })),
-});
+const initialState: LoadingState = {
+  isLoading: false,
+}
+
+export const loadingSlice = createSlice({
+  name: 'loading',
+  initialState,
+  reducers: {
+    setLoading: (state, action) => {
+      state.isLoading = action.payload
+    },
+  },
+})
+
+// Action creators are generated for each case reducer function
+export const { setLoading } = loadingSlice.actions
+
+export default loadingSlice.reducer
