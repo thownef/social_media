@@ -1,9 +1,10 @@
-import { useNavigate, NavigateFunction } from "react-router-dom";
+import { router } from "@/routes";
+import { NavigateFunction } from "react-router-dom";
 
-export let globalNavigate: NavigateFunction;
+export let globalNavigate:NavigateFunction;
 
 export const GlobalHistory = () => {
-  globalNavigate = useNavigate();
+  globalNavigate = router.navigate;
 
   return null;
 };
