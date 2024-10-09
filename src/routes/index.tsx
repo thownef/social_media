@@ -1,5 +1,5 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { createBrowserRouter, RouteObject, RouterProvider } from "react-router-dom";
+import { useEffect } from "react";
 
 import { ModuleName, PageName, PagePath } from "@/shared/core/enum/page.enum";
 import { lazyLoadModuleRoute, lazyLoadRoute } from "@/routes/LazyLoadRoutes";
@@ -7,8 +7,12 @@ import ValidateLoginRoute from "@/routes/ValidateLoginRoute";
 import PrivateRoute from "@/routes/PrivateRoute";
 
 import Layout from "@/shared/layouts";
-
-const NavigateComponent = lazy(() => import("@/shared/components/Navigate/Navigate"));
+import RoleRoute from "@/routes/RoleRoute";
+import { Roles } from "@/shared/core/enum/role.enum";
+import { groupsRoute } from "@/routes/modules";
+import { useAppDispatch, useAppSelector } from "@/shared/hooks/useAppHooks";
+import _ from "lodash";
+import { setUser } from "@/shared/store/authSlice";
 
 const configRoutes: RouteObject[] = [
   {
@@ -25,12 +29,9 @@ const configRoutes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: (
-          <Suspense fallback="loading...">
-            <NavigateComponent />
-          </Suspense>
-        ),
+        element: <RoleRoute roles={[Roles.USER]}>{lazyLoadModuleRoute(ModuleName.HOME, PageName.HOME)}</RoleRoute>,
       },
+      ...groupsRoute,
     ],
   },
   {
@@ -39,6 +40,30 @@ const configRoutes: RouteObject[] = [
   },
 ];
 
-const router = createBrowserRouter(configRoutes);
+const RoutesApp = () => {
+  const dispatch = useAppDispatch();
+  const authProfileStore = useAppSelector((state) => state.user.user);
+  const isAuthenticated = localStorage.getItem("bearer_token");
+  const router = createBrowserRouter(configRoutes);
 
-export default router;
+  useEffect(() => {
+    (async () => {
+      if (isAuthenticated && !authProfileStore) {
+        try {
+          // const res = await getProfile();
+          const profileData = { id: 1, userName: "thownef", email: "vantho3042000@gmail.com", role: 1, createdAt: "30/04/2024" };
+
+          if (_.isEmpty(profileData)) {
+            localStorage.removeItem("bearer_token");
+          } else {
+            dispatch(setUser(profileData));
+          }
+        } catch (error) {}
+      }
+    })();
+  }, []);
+
+  return <RouterProvider router={router} />;
+};
+
+export default RoutesApp;
