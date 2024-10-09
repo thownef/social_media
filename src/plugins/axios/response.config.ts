@@ -1,6 +1,5 @@
 import { camelizeKeys } from "humps";
 
-import { globalNavigate } from "@/shared/components/GlobalHistory/GlobalHistory";
 import { ResponseError } from "@/shared/core/types/common.type";
 
 import { useAppDispatch } from "@/shared/hooks/useAppHooks";
@@ -9,10 +8,9 @@ import { HttpErrorCodeEnum } from "@/shared/core/enum/http-error-code.enum";
 import { logout } from "@/shared/store/authSlice";
 import { setNotification } from "@/shared/store/notificationSlice";
 import { handleServerError, handleServerSuccess } from "@/shared/utils/handle-response-server";
-import { useNavigate } from "react-router-dom";
+import { globalNavigate } from "@/shared/components/GlobalHistory/GlobalHistory";
 
 const dispatch = useAppDispatch();
-const navigate = useNavigate();
 
 // Config Response Interceptor
 export const axiosInterceptorResponseConfig = (response: any) => {
@@ -40,7 +38,7 @@ export const axiosInterceptorResponseError = (error: ResponseError) => {
   if (status === HttpErrorCodeEnum.UNAUTHORIZED) {
     if (!window.location.pathname.includes("/login")) {
       dispatch(logout());
-      navigate("/login");
+      globalNavigate("/login");
     }
     const { config } = error;
 
