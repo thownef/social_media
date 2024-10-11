@@ -1,5 +1,4 @@
 export type AuthLogin = {
-  loginId: string;
+  email: string;
   password: string;
-  isRemember: boolean;
 };
