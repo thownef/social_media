@@ -7,7 +7,7 @@ const LoginPage = () => {
   return (
     <div className="h-screen bg-white">
       <div className="flex flex-col items-center justify-center bg-gray-100 h-4/5">
-        <div className="flex flex-col items-center md:flex-row w-[980px]">
+        <div className="flex flex-col items-center md:flex-row w-[980px] gap-3">
           <div className="text-center md:text-left">
             <h1 className="text-6xl font-bold text-blue-600">facebook</h1>
             <p className="mt-4 text-2xl">Facebook helps you connect and share with the people in your life.</p>
