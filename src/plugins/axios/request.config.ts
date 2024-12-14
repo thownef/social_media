@@ -1,7 +1,6 @@
-import { useAppDispatch } from "@/shared/hooks/useAppHooks";
-import { setLoading } from "@/shared/store/loadingSlice";
-import { decamelizeKeys } from "humps";
-const dispatch = useAppDispatch();
+import * as changeKeys from 'change-case/keys'
+import { store } from "@/shared/store";
+import { decrementCountRequest, incrementCountRequest, resetCountRequest, setLoading } from "@/shared/store/loadingSlice";
 
 // Config Axios
 export const axiosConfig = {
@@ -10,17 +9,19 @@ export const axiosConfig = {
     Accept: "application/json",
     "Content-Type": "application/json",
   },
-  timeout: 30000, // request timeout
+  timeout: 30000,
 };
 
 // Config Request Interceptor
 export const axiosInterceptorRequestConfig = (config: any) => {
-  dispatch(setLoading(true));
+  store.dispatch(incrementCountRequest());
+  store.dispatch(setLoading(true));
+  
   if (config.data) {
-    config.data = config.url?.includes("import") ? config.data : decamelizeKeys(config.data);
+    config.data = changeKeys.snakeCase(config.data);
   }
   if (config.params) {
-    config.params = decamelizeKeys(config.params);
+    config.params = changeKeys.snakeCase(config.params);
   }
   if (localStorage.getItem("bearer_token")) {
     config.headers.Authorization = `Bearer ${localStorage.getItem("bearer_token")}`;
@@ -31,7 +32,13 @@ export const axiosInterceptorRequestConfig = (config: any) => {
 
 // Config Request Error Interceptor
 export const axiosInterceptorRequestError = (error: any) => {
-  dispatch(setLoading(false));
+  store.dispatch(decrementCountRequest());
+  const loadingState = store.getState().loading;
+  
+  if (loadingState.countRequest <= 0) {
+    store.dispatch(setLoading(false));
+    store.dispatch(resetCountRequest());
+  }
 
   return Promise.reject(error);
 };

@@ -1,8 +1,9 @@
+import { AlertColor } from '@mui/material';
 import { createSlice } from '@reduxjs/toolkit'
 
 type Notification = {
   message: string;
-  type: string;
+  type: AlertColor;
 };
 
 export interface LoadingState {
@@ -13,8 +14,8 @@ export interface LoadingState {
 const initialState: LoadingState = {
   isOpen: false,
   notification: {
-    message: "",
-    type: "",
+    message: "Login Successfully Login Successfully Login Successfully \n1Login Successfully Login Successfully Login Successfully Login Successfully",
+    type: "success",
   },
 }
 
@@ -27,9 +28,13 @@ export const notificationSlice = createSlice({
       state.isOpen = true
       state.notification = { type, message }
     },
+    resetNotification: (state) => {
+      state.isOpen = false
+      state.notification = { message: "", type: "info" }
+    },
   },
 })
 
-export const { setNotification } = notificationSlice.actions
+export const { setNotification, resetNotification } = notificationSlice.actions
 
 export default notificationSlice.reducer

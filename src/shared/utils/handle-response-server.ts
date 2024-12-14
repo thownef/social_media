@@ -1,13 +1,12 @@
-import { useAppDispatch } from "@/shared/hooks/useAppHooks";
+import { store } from "@/shared/store";
 import { setNotification } from "@/shared/store/notificationSlice";
 
-const dispatch = useAppDispatch();
 type HttpMethod = "post" | "get" | "put" | "delete";
 
 export const handleServerError = (method: HttpMethod, message: string) => {
   switch (method) {
     case "post":
-      dispatch(setNotification({ message, type: "error" }));
+      store.dispatch(setNotification({ message, type: "error" }));
       return;
     default:
       return;
@@ -20,13 +19,13 @@ export const handleServerSuccess = (method: HttpMethod, message?: string) => {
 
   switch (method) {
     case "post":
-      dispatch(setNotification({message: messageLogin || message || messageUpdateHolidays || "Updated successfully.", type: "success"}));
+      store.dispatch(setNotification({message: messageLogin || message || messageUpdateHolidays || "Created successfully.", type: "success"}));
       return;
     case "put":
-      dispatch(setNotification({message: message || "Updated successfully.", type: "success"}));
+      store.dispatch(setNotification({message: message || "Updated successfully.", type: "success"}));
       return;
     case "delete":
-      dispatch(setNotification({message: message || "Updated successfully.", type: "success"}));
+      store.dispatch(setNotification({message: message || "Deleted successfully.", type: "success"}));
       return;
     default:
       return;
