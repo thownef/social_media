@@ -1,5 +1,5 @@
-import { TextField, TextFieldPropsSizeOverrides, TextFieldVariants } from "@mui/material";
 import { Controller } from "react-hook-form";
+import { TextField, TextFieldVariants } from "@mui/material";
 
 type FormInputProps = {
   control: any;

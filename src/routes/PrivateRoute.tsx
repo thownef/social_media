@@ -7,7 +7,7 @@ type Props = {
 
 const PrivateRoute = ({ children }: Props) => {
   const location = useLocation();
-  const isAuthenticated = localStorage.getItem("bearer_token") || true;
+  const isAuthenticated = localStorage.getItem("bearer_token");
 
   if (!isAuthenticated) {
     return <Navigate state={{ from: location }} to="/login" />;
