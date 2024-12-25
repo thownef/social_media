@@ -1,4 +1,4 @@
-import * as changeKeys from 'change-case/keys'
+import { camelizeKeys } from 'humps';
 import { ResponseError } from "@/shared/core/types/common.type";
 import { decrementCountRequest, resetCountRequest, setLoading } from "@/shared/store/loadingSlice";
 import { HttpErrorCodeEnum } from "@/shared/core/enum/http-error-code.enum";
@@ -18,7 +18,7 @@ export const axiosInterceptorResponseConfig = (response: any) => {
   if (response.data?.data) {
     const { data } = response.data;
 
-    response.data.data = changeKeys.camelCase(data);
+    response.data.data = camelizeKeys(data);
   }
   handleServerSuccess(response?.config?.method);
 

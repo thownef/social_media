@@ -1,4 +1,4 @@
-import * as changeKeys from 'change-case/keys'
+import { decamelizeKeys } from "humps";
 import { store } from "@/shared/store";
 import { decrementCountRequest, incrementCountRequest, resetCountRequest, setLoading } from "@/shared/store/loadingSlice";
 
@@ -16,12 +16,12 @@ export const axiosConfig = {
 export const axiosInterceptorRequestConfig = (config: any) => {
   store.dispatch(incrementCountRequest());
   store.dispatch(setLoading(true));
-  
+
   if (config.data) {
-    config.data = changeKeys.snakeCase(config.data);
+    config.data = decamelizeKeys(config.data);
   }
   if (config.params) {
-    config.params = changeKeys.snakeCase(config.params);
+    config.params = decamelizeKeys(config.params);
   }
   if (localStorage.getItem("bearer_token")) {
     config.headers.Authorization = `Bearer ${localStorage.getItem("bearer_token")}`;
@@ -34,7 +34,7 @@ export const axiosInterceptorRequestConfig = (config: any) => {
 export const axiosInterceptorRequestError = (error: any) => {
   store.dispatch(decrementCountRequest());
   const loadingState = store.getState().loading;
-  
+
   if (loadingState.countRequest <= 0) {
     store.dispatch(setLoading(false));
     store.dispatch(resetCountRequest());
