@@ -1,4 +1,4 @@
-import * as changeCase from "change-case";
+import { camelize } from "humps";
 
 type ErrorsData = {
   field: string;
@@ -7,7 +7,7 @@ type ErrorsData = {
 
 export const setFormError = (setError: any, errors: ErrorsData[]) => {
   const transformErrors = errors.map((item) => ({
-    field: changeCase.camelCase(item.field),
+    field: camelize(item.field),
     message: item.message[0],
   }));
 
