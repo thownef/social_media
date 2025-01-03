@@ -31,7 +31,7 @@ const Notification = () => {
       open={isOpen}
       onClose={handleClose}
       TransitionComponent={SlideTransition}
-      autoHideDuration={2000}
+      autoHideDuration={1000}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
