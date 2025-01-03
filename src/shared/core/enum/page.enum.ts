@@ -8,6 +8,7 @@ export enum ModuleName {
 
 export enum PageName {
   AUTH = "login",
+  REGISTER = "register",
   HOME = "home",
   MARKETPLACE = "marketplace",
   GROUP = "group",
@@ -16,6 +17,7 @@ export enum PageName {
 
 export enum PagePath {
   AUTH = "/login",
+  REGISTER = "/register",
   HOME = "/",
   MARKETPLACE = "/marketplace",
   GROUP = "/group",
