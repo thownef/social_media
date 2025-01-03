@@ -13,6 +13,7 @@ const LoginPage = () => {
       <div className="relative">
         <img src={boxTopLeft} alt="Box top left decoration" className="absolute w-[343px] left-[-146px] top-[-58px]" />
         <img src={boxBottomRight} alt="Box bottom right decoration" className="absolute w-[343px] right-[-136px] bottom-[-84px]" />
+        <div className="fixed top-0 left-0 w-full h-full bg-black opacity-10"></div>
         <div className="mt-10 md:mt-0">
           <LoginForm />
         </div>

@@ -28,16 +28,16 @@ const LoginForm = () => {
   const onSubmit = async (values: FormSignIn) => {
     const res = await login(values);
     if (res?.data?.data) {
-      const { user, accessToken, loginAt } = res.data.data;
+      const { user, accessToken } = res.data.data;
 
-      dispatch(loginStore({ user, accessToken, loginAt }));
+      dispatch(loginStore({ user, accessToken }));
       navigate("/");
     }
-    return res
+    return res;
   };
 
   const { onSubmitForm } = useHandleForm({
-    onSubmit: onSubmit,
+    onSubmit,
     setError,
     isValidForm: _.isEmpty(errors),
     pathNavigate: PagePath.HOME,
@@ -45,21 +45,38 @@ const LoginForm = () => {
 
   return (
     <div className="flex w-full">
-      <form onSubmit={handleSubmit(onSubmitForm)} className="w-[396px] flex flex-col bg-white p-6 rounded-lg shadow-md gap-3">
-        <FormInput control={control} label="Email" name="email" />
-        <FormInput control={control} label="Password" name="password" />
-        <Button variant="contained" size="large" className="!normal-case !text-xl !bg-blue-600">
-          Log in
-        </Button>
-        <Link to="#" className=" text-center text-blue-600">
-          Forgotten password?
-        </Link>
-        <hr className="my-2" />
-        <div className="text-center">
-          <Button variant="contained" size="large" className="!normal-case !text-lg !bg-[#42b72a]">
-            Create new account
+      <form onSubmit={handleSubmit(onSubmitForm)} className="w-[572px] bg-white p-8 rounded-lg shadow-md gap-3 z-50">
+        <div className="flex flex-col gap-3">
+          <h1 className="text-4xl font-medium text-center leading-10 mb-8">Sign In</h1>
+          <FormInput control={control} label="Email" name="email" />
+          <FormInput control={control} label="Password" name="password" />
+          <div className="flex items-center justify-between text-sm mt-2">
+            <label className="flex items-center gap-2 text-gray-600">
+              <input type="checkbox" className="rounded" />
+              Remember me
+            </label>
+            <Link to="/forgot-password" className="text-[#E86D2A] hover:underline">
+              Forgot password?
+            </Link>
+          </div>
+        </div>
+        <div className="mt-8">
+          <Button
+            variant="contained"
+            size="large"
+            className="!w-full !py-3 !normal-case !text-base !bg-[#E86D2A] !rounded-lg !font-medium hover:!bg-[#d65d1e]"
+            type="submit"
+          >
+            Sign In
           </Button>
         </div>
+
+        <p className="text-center text-gray-600 mt-6">
+          Don't have an account?
+          <Link to={PagePath.REGISTER} className="text-[#E86D2A] hover:underline font-medium">
+            Sign up
+          </Link>
+        </p>
       </form>
     </div>
   );
