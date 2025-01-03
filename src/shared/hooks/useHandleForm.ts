@@ -27,7 +27,7 @@ const useHandleForm = ({ onSubmit, id, setError, isValidForm, pathNavigate, fnAf
     } catch (err: any) {
       if (err.code === HttpErrorCodeEnum.UNPROCESSABLE_CONTENT) {
         const { errors = [] } = err;
-
+        console.log(errors);
         errors.length && setFormError(setError, errors);
       }
     }

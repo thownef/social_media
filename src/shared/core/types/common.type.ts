@@ -25,3 +25,8 @@ export type ResponseError = {
   config: ConfigRequest;
   response: BaseResponse;
 };
+
+export type OptionSelect = {
+  value: number | string;
+  label: string;
+};

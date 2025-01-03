@@ -19,6 +19,10 @@ const configRoutes: RouteObject[] = [
     element: <ValidateLoginRoute>{lazyLoadModuleRoute(ModuleName.AUTH, PageName.AUTH)}</ValidateLoginRoute>,
   },
   {
+    path: PagePath.REGISTER,
+    element: <ValidateLoginRoute>{lazyLoadModuleRoute(ModuleName.AUTH, PageName.REGISTER)}</ValidateLoginRoute>,
+  },
+  {
     path: "/",
     element: (
       <PrivateRoute>
