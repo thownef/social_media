@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import _ from "lodash";
 import { Link, useNavigate } from "react-router-dom";
 import { FormInput } from "@/shared/components/Input";
-import { FormSignIn, initForm, SignInSchema } from "@/modules/auth/core/form/signin-form";
+import { FormSignIn, initForm, SignInSchema } from "@/modules/auth/core/config/form/signin-form";
 import { Button } from "@mui/material";
 import { PagePath } from "@/shared/core/enum";
 import useHandleForm from "@/shared/hooks/useHandleForm";
@@ -72,7 +72,7 @@ const LoginForm = () => {
         </div>
 
         <p className="text-center text-gray-600 mt-6">
-          Don't have an account?
+          Don't have an account?{" "}
           <Link to={PagePath.REGISTER} className="text-[#E86D2A] hover:underline font-medium">
             Sign up
           </Link>
