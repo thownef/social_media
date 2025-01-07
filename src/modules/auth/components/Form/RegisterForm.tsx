@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { PagePath } from "@/shared/core/enum";
 import useHandleForm from "@/shared/hooks/useHandleForm";
 import { register } from "@/modules/auth/services/auth.service";
+import { Dayjs } from "dayjs";
 
 const RegisterForm = () => {
   const {
@@ -25,7 +26,11 @@ const RegisterForm = () => {
   });
 
   const handleSubmitForm = async (values: FormSignUp) => {
-    return await register(values);
+    const transformValues: FormSignUp = {
+      ...values,
+      dateOfBirth: (values.dateOfBirth as Dayjs).format("YYYY-MM-DD"),
+    };
+    return await register(transformValues);
   };
 
   const { onSubmitForm } = useHandleForm({
@@ -60,15 +65,16 @@ const RegisterForm = () => {
               <FormInput control={control} label="Phone" name="phone" />
             </Grid>
             <Grid size={12}>
-              <FormInput control={control} label="Password" name="password" />
+              <FormInput control={control} label="Password" name="password" type="password" />
             </Grid>
             <Grid size={12}>
-              <FormInput control={control} label="Confirm Password" name="confirmPassword" />
+              <FormInput control={control} label="Confirm Password" name="confirmPassword" type="password" />
             </Grid>
           </Grid>
         </div>
         <div className="mt-8">
           <Button
+            disabled={!_.isEmpty(errors)}
             variant="contained"
             size="large"
             className="!w-full !py-3 !normal-case !text-base !bg-[#E86D2A] !rounded-lg !font-medium hover:!bg-[#d65d1e]"
