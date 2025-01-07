@@ -49,7 +49,7 @@ const LoginForm = () => {
         <div className="flex flex-col gap-3">
           <h1 className="text-4xl font-medium text-center leading-10 mb-8">Sign In</h1>
           <FormInput control={control} label="Email" name="email" />
-          <FormInput control={control} label="Password" name="password" />
+          <FormInput control={control} label="Password" name="password" type="password" />
           <div className="flex items-center justify-between text-sm mt-2">
             <label className="flex items-center gap-2 text-gray-600">
               <input type="checkbox" className="rounded" />
