@@ -14,16 +14,14 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      const { user, accessToken, loginAt } = action.payload;
+      const { user, accessToken } = action.payload;
 
       localStorage.setItem("bearer_token", accessToken);
-      localStorage.setItem("login_at", loginAt);
 
       state.user = user;
     },
     logout: (state) => {
       localStorage.removeItem("bearer_token");
-      localStorage.removeItem("login_at");
 
       state.user = null;
     },
