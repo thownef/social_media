@@ -6,8 +6,6 @@ import { lazyLoadModuleRoute, lazyLoadRoute } from "@/routes/LazyLoadRoutes";
 import ValidateLoginRoute from "@/routes/ValidateLoginRoute";
 import PrivateRoute from "@/routes/PrivateRoute";
 import Layout from "@/shared/layouts";
-import RoleRoute from "@/routes/RoleRoute";
-import { Roles } from "@/shared/core/enum/role.enum";
 import { groupsRoute } from "@/routes/modules";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/useAppHooks";
 import { setUser } from "@/shared/store/authSlice";
@@ -32,7 +30,7 @@ const configRoutes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <RoleRoute roles={[Roles.USER]}>{lazyLoadModuleRoute(ModuleName.HOME, PageName.HOME)}</RoleRoute>,
+        element: lazyLoadModuleRoute(ModuleName.HOME, PageName.HOME),
       },
       ...groupsRoute,
     ],
