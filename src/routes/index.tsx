@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { createBrowserRouter, RouteObject, RouterProvider } from "react-router-dom";
 import _ from "lodash";
 import { ModuleName, PageName, PagePath } from "@/shared/core/enum/page.enum";
@@ -10,6 +10,9 @@ import { groupsRoute } from "@/routes/modules";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/useAppHooks";
 import { setUser } from "@/shared/store/authSlice";
 import { getProfile } from "@/shared/services/auth.service";
+const NavigateComponent = lazy(
+  () => import("@/shared/components/Navigate/Navigate"),
+);
 
 const configRoutes: RouteObject[] = [
   {
@@ -30,7 +33,11 @@ const configRoutes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: lazyLoadModuleRoute(ModuleName.HOME, PageName.HOME),
+        element: (
+          <Suspense fallback="loading...">
+            <NavigateComponent />
+          </Suspense>
+        ),
       },
       ...groupsRoute,
     ],
