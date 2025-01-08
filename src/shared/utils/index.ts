@@ -5,5 +5,7 @@ export const navigateWithRole = (role: Roles) => {
   switch (role) {
     case Roles.USER:
       return PagePath.HOME;
+    default:
+      return PagePath.HOME;
   }
 };
