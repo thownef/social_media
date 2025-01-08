@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, Typography } from "@mui/material";
+import { Avatar, Box, Divider, Typography, Button } from "@mui/material";
 import { Chat, Favorite, MoreHoriz, Share, Public, ThumbUp } from "@mui/icons-material";
 import ListImage from "@/modules/home/components/ImageList/ImageList";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ const Post = () => {
   ];
   return (
     <Box className="w-full">
-      <Box className="border rounded-lg p-3 bg-white shadow-sm">
+      <Box className="border rounded-lg p-2 bg-white shadow-sm">
         <Box className="flex !items-center gap-4 mb-3">
           <Avatar src="/path-to-avatar.jpg" />
           <Box className="flex-1">
@@ -47,27 +47,49 @@ const Post = () => {
 
           <Divider />
 
-          <Box className="flex items-center justify-between mt-2">
-            <button className="flex items-center gap-1 hover:bg-gray-100 px-4 py-2 rounded-md transition-colors">
-              <ThumbUp fontSize="small" className="text-gray-500" />
-              <Typography variant="body2" color="gray">
-                Like
-              </Typography>
-            </button>
+          <Box className="grid grid-cols-3 mt-1">
+            <Button
+              startIcon={<ThumbUp className="text-gray-500" />}
+              sx={{
+                color: "gray",
+                padding: "10px 0",
+                "&:hover": {
+                  backgroundColor: "#f3f4f6",
+                },
+              }}
+              fullWidth
+              size="small"
+            >
+              Like
+            </Button>
 
-            <button className="flex items-center gap-1 hover:bg-gray-100 px-4 py-2 rounded-md transition-colors">
-              <Chat fontSize="small" className="text-gray-500" />
-              <Typography variant="body2" color="gray">
-                Comment
-              </Typography>
-            </button>
+            <Button
+              startIcon={<Chat className="text-gray-500" />}
+              sx={{
+                color: "gray",
+                "&:hover": {
+                  backgroundColor: "#f3f4f6",
+                },
+              }}
+              fullWidth
+              size="small"
+            >
+              Comment
+            </Button>
 
-            <button className="flex items-center gap-1 hover:bg-gray-100 px-4 py-2 rounded-md transition-colors">
-              <Share fontSize="small" className="text-gray-500" />
-              <Typography variant="body2" color="gray">
-                Share
-              </Typography>
-            </button>
+            <Button
+              startIcon={<Share className="text-gray-500" />}
+              sx={{
+                color: "gray",
+                "&:hover": {
+                  backgroundColor: "#f3f4f6",
+                },
+              }}
+              fullWidth
+              size="small"
+            >
+              Share
+            </Button>
           </Box>
         </Box>
       </Box>
