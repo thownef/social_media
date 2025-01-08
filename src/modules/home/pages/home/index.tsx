@@ -1,7 +1,18 @@
+import News from "@/modules/home/components/News/News";
+import PostComposer from "@/modules/home/components/PostComposer/PostComposer";
+import { Box } from "@mui/material";
+
 const HomePage = () => {
   return (
-    <div>HomePage</div>
-  )
-}
+    <Box className="flex">
+      <Box className="flex-1">Left</Box>
+      <Box className="flex-1 p-4">
+        <PostComposer />
+        <News />
+      </Box>
+      <Box className="flex-1">Right</Box>
+    </Box>
+  );
+};
 
-export default HomePage
+export default HomePage;

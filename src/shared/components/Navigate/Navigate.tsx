@@ -3,13 +3,16 @@ import { Navigate, useLocation } from "react-router-dom";
 import { RootState } from "@/shared/store";
 import { navigateWithRole } from "@/shared/utils";
 import { useAppSelector } from "@/shared/hooks/useAppHooks";
-import { PagePath } from "@/shared/core/enum";
+import { PageName, ModuleName, PagePath } from "@/shared/core/enum";
+import { lazyLoadModuleRoute } from "@/routes/LazyLoadRoutes";
 
 const NavigateComponent = () => {
   const location = useLocation();
   const user = useAppSelector((state: RootState) => state.user.user);
 
-  if (!user || location.pathname === PagePath.HOME) return;
+  if (!user) return;
+
+  if (location.pathname === PagePath.HOME) return lazyLoadModuleRoute(ModuleName.HOME, PageName.HOME);
 
   const path = navigateWithRole(user.role);
 

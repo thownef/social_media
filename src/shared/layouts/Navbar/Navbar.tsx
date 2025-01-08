@@ -17,7 +17,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="fixed" className="!bg-white !shadow-md !h-14 !px-4">
+    <AppBar position="sticky" className="!bg-white !shadow-md !h-14 !px-4">
       <Toolbar className="!justify-between !h-14 !min-h-14 !p-0">
         <Box className="flex items-center flex-1 gap-2">
           <Link to={PagePath.HOME}>
