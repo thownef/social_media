@@ -30,3 +30,9 @@ export type OptionSelect = {
   value: number | string;
   label: string;
 };
+
+export type FileImage = {
+  name: string;
+  link: string;
+  type: string;
+};
