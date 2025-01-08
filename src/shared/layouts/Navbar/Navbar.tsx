@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { PagePath } from "@/shared/core/enum";
 import { AppBar, Toolbar, InputBase, IconButton, Badge, Avatar, Box, Tabs } from "@mui/material";
-import { Notifications, Message, ShoppingBag, Search } from "@mui/icons-material";
+import { Notifications, Message, Search } from "@mui/icons-material";
 import logo from "/assets/img/logo.png";
 import { useState } from "react";
 import LinkTab from "@/shared/components/LinkTab/LinkTab";
@@ -80,19 +80,31 @@ const Navbar = () => {
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, flex: 1, justifyContent: "flex-end" }}>
-          <IconButton>
+          <IconButton sx={{
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.08)',
+            },
+          }}>
             <Badge badgeContent={1} color="error">
               <Notifications />
             </Badge>
           </IconButton>
-          <IconButton>
+          <IconButton sx={{
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.08)',
+            },
+          }}>
             <Badge badgeContent={2} color="error">
-              <Message />
+              <Message fontSize="medium" />
             </Badge>
           </IconButton>
-
-          <IconButton>
-            <Avatar src="https://via.placeholder.com/32" sx={{ width: 32, height: 32 }} />
+          <IconButton sx={{
+            padding: '4px',
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.08)',
+            },
+          }}>
+            <Avatar src="/broken-image.jpg" sx={{ width: 32, height: 32 }} />
           </IconButton>
         </Box>
       </Toolbar>
