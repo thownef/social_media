@@ -1,10 +1,12 @@
 import { type Roles } from "@/shared/core/enum/role.enum";
+import { FileImage } from "@/shared/core/types/common.type";
 
 export type User = {
   id: number;
-  userName: string;
   email: string;
+  phone: string;
   role: Roles;
+  profile: Profile;
   createdAt: string;
 };
 
@@ -13,9 +15,10 @@ export type Profile = {
   userId: string;
   firstName: string;
   lastName: string;
-  bio: string;
-  birthday: Date;
-  gender: string;
-  location: string;
-  createdAt: string;
+  gender: number;
+  dateOfBirth: string;
+  location: string | null;
+  biography: string | null;
+  avatar: FileImage | null;
+  cover: FileImage | null;
 };
