@@ -31,6 +31,15 @@ export type OptionSelect = {
   label: string;
 };
 
+export type Pagination = {
+  count: number;
+  total: number;
+  perPage: number;
+  currentPage: number;
+  totalPages: number;
+  links: any;
+};
+
 export type FileImage = {
   name: string;
   link: string;

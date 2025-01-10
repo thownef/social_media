@@ -51,13 +51,13 @@ const Navbar = () => {
           </Tabs>
         </Box>
 
-        <Box className="flex items-center gap-1 flex-1 justify-end">
-          <IconButton className="!p-1 [&:hover]:!bg-black/[0.1]">
+        <Box className="flex items-center gap-2 flex-1 justify-end">
+          <IconButton className="!p-2 [&:hover]:!bg-black/[0.1]">
             <Badge badgeContent={1} color="error">
               <Notifications />
             </Badge>
           </IconButton>
-          <IconButton className="!p-1 [&:hover]:!bg-black/[0.1]">
+          <IconButton className="!p-2 [&:hover]:!bg-black/[0.1]">
             <Badge badgeContent={2} color="error">
               <Message fontSize="medium" />
             </Badge>
