@@ -1,7 +1,8 @@
 import { Box, ImageList, ImageListItem, Typography } from "@mui/material";
 import { cn } from "@/shared/utils/cn";
+import { FileImage } from "@/shared/core/types";
 
-const ListImage = ({ images }: { images: any }) => {
+const ListImage = ({ images }: { images: FileImage[] }) => {
   const getRemainingCount = () => {
     if (images.length <= 3) return null;
     return images.length - 3;
@@ -20,7 +21,7 @@ const ListImage = ({ images }: { images: any }) => {
           key={index}
           className={cn("overflow-hidden rounded-md cursor-pointer", images.length >= 3 && index === 0 ? "row-span-2" : "row-span-1")}
         >
-          <img src={image.url} alt={`Image ${index + 1}`} className="w-full h-full object-cover cursor-pointer" />
+          <img src={image.link} alt={`Image ${index + 1}`} className="w-full h-full object-cover cursor-pointer" />
           {index === 2 && getRemainingCount() && (
             <Box className="absolute inset-0 bg-black/60 flex items-center justify-center">
               <Typography variant="h4" className="text-white font-bold">
