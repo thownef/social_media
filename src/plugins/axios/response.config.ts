@@ -27,6 +27,11 @@ export const axiosInterceptorResponseConfig = (response: any) => {
 
 // Config Response Error Interceptor
 export const axiosInterceptorResponseError = (error: ResponseError) => {
+  store.dispatch(decrementCountRequest());
+  if (store.getState().loading.countRequest <= 0) {
+    store.dispatch(setLoading(false));
+    store.dispatch(resetCountRequest());
+  }
   const resError = JSON.parse(JSON.stringify(error));
 
   // Timeout web
@@ -53,11 +58,6 @@ export const axiosInterceptorResponseError = (error: ResponseError) => {
   }
 
   if (status === HttpErrorCodeEnum.UNPROCESSABLE_CONTENT) {
-    store.dispatch(decrementCountRequest());
-    if (store.getState().loading.countRequest <= 0) {
-      store.dispatch(setLoading(false));
-      store.dispatch(resetCountRequest());
-    }
     const { data: errors } = error.response || {};
 
     return Promise.reject(errors);
@@ -77,8 +77,6 @@ export const axiosInterceptorResponseError = (error: ResponseError) => {
   if (status === HttpErrorCodeEnum.BAD_REQUEST) {
     store.dispatch(setNotification({ message: "System Error", type: "error" }));
   }
-
-  store.dispatch(setLoading(false));
 
   return Promise.reject(error);
 };
