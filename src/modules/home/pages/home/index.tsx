@@ -7,7 +7,6 @@ const HomePage = () => {
     <Box className="flex">
       <Box className="flex-1">Left</Box>
       <Box className="flex-1 p-4">
-        <PostComposer />
         <News />
       </Box>
       <Box className="flex-1">Right</Box>

@@ -14,7 +14,9 @@ type ReturnedHooksData<T> = {
       [key: string]: any;
     }>
   >;
-  onResetDataTable: () => void
+  onResetDataTable: () => void;
+  onPrependData: (newData: T) => void;
+  onRemoveData: (id: number) => void;
 };
 
 type FnFetchData<T> = (params: { [key: string]: any }) => Promise<{
@@ -22,7 +24,7 @@ type FnFetchData<T> = (params: { [key: string]: any }) => Promise<{
   data: T[];
 } | null>;
 
-const useFetchDataTable = <T>(
+const useFetchDataTable = <T extends { id: number }>(
   fetchData: FnFetchData<T>,
   perPage: number = 10,
   isSetQueryString: boolean = false
@@ -70,6 +72,14 @@ const useFetchDataTable = <T>(
     setDataTable([]);
   }, []);
 
+  const handlePrependData = useCallback((newData: T) => {
+    setDataTable(prev => [newData, ...prev]);
+  }, []);
+
+  const handleRemoveData = useCallback((id: number) => {
+    setDataTable(prev => prev.filter(item => item.id !== id));
+  }, []);
+
   return {
     onFetch: fetch,
     dataTable,
@@ -77,6 +87,8 @@ const useFetchDataTable = <T>(
     queryParams,
     onSetQueryParams: setQueryParams,
     onResetDataTable: handleResetDataTable,
+    onPrependData: handlePrependData,
+    onRemoveData: handleRemoveData,
   };
 };
 

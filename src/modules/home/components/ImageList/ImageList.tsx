@@ -10,16 +10,20 @@ const ListImage = ({ images }: { images: FileImage[] }) => {
   return (
     <ImageList
       className={cn(
-        "w-full h-[384px] gap-2",
-        images.length === 1 ? "grid-cols-1" : "grid-cols-2",
-        images.length === 2 ? "grid-rows-1" : "grid-rows-2"
+        "w-full gap-2",
+        images.length === 1 ? "h-auto !grid !grid-cols-1" : "h-[384px]",
+        images.length === 2 ? "grid-cols-2 grid-rows-1" : null,
+        images.length > 2 ? "grid-cols-2 grid-rows-2" : null
       )}
-      variant="quilted"
+      variant={images.length === 1 ? "standard" : "quilted"}
     >
-      {images.slice(0, Math.min(3, images.length)).map((image: any, index: number) => (
+      {images.slice(0, Math.min(3, images.length)).map((image: FileImage, index: number) => (
         <ImageListItem
           key={index}
-          className={cn("overflow-hidden rounded-md cursor-pointer", images.length >= 3 && index === 0 ? "row-span-2" : "row-span-1")}
+          className={cn(
+            "overflow-hidden rounded-md cursor-pointer",
+            images.length > 2 && index === 0 ? "row-span-2" : "row-span-1"
+          )}
         >
           <img src={image.link} alt={`Image ${index + 1}`} className="w-full h-full object-cover cursor-pointer" />
           {index === 2 && getRemainingCount() && (
