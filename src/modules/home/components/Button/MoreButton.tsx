@@ -2,13 +2,16 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { IconButton, MenuItem, MenuList, ClickAwayListener, Paper, Grow, Popper } from "@mui/material";
 import { MoreHoriz, Edit, Delete } from "@mui/icons-material";
 import { deletePost } from "@/modules/home/services/post.service";
+import { Post } from "@/modules/home/core/types/post.type";
 
 type MoreButtonProps = {
   id: number;
+  data: Post;
   onRemovePost: (id: number) => void;
+  onEditPost: (data: Post) => void;
 }
 
-const MoreButton = ({ id, onRemovePost }: MoreButtonProps) => {
+const MoreButton = ({ id, data, onRemovePost, onEditPost }: MoreButtonProps) => {
   const [open, setOpen] = useState(false);
   const prevOpen = useRef(open);
   const anchorRef = useRef<HTMLButtonElement>(null);
@@ -47,6 +50,11 @@ const MoreButton = ({ id, onRemovePost }: MoreButtonProps) => {
       setOpen(false);
     } catch (error) {}
   }, [id, onRemovePost]);
+
+  const handleEditPost = useCallback(() => {
+    onEditPost(data);
+    setOpen(false);
+  }, [data, onEditPost]);
 
   return (
     <>
@@ -98,7 +106,7 @@ const MoreButton = ({ id, onRemovePost }: MoreButtonProps) => {
             >
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList autoFocusItem={open} id="composition-menu" aria-labelledby="composition-button" onKeyDown={handleListKeyDown}>
-                  <MenuItem onClick={handleClose} className="!text-sm !flex !items-center gap-2 h-auto">
+                  <MenuItem onClick={handleEditPost} className="!text-sm !flex !items-center gap-2 h-auto">
                     <Edit /> Edit post
                   </MenuItem>
                   <MenuItem onClick={handleDeletePost} className="!text-sm !flex !items-center gap-2 h-auto">

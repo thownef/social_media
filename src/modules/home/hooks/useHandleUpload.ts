@@ -16,9 +16,14 @@ interface UseHandleUploadReturn {
   onDragLeave: (e: React.DragEvent<HTMLDivElement>) => void;
 }
 
-const useHandleUpload = (setValue: UseFormSetValue<any>): UseHandleUploadReturn => {
+const useHandleUpload = (setValue: UseFormSetValue<any>, initialFiles: any[]): UseHandleUploadReturn => {
   const [showImageUpload, setShowImageUpload] = useState(false);
-  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>(() => {
+    if (initialFiles?.length) {
+      return initialFiles.map((file) => file.link || URL.createObjectURL(file));
+    }
+    return [];
+  });
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -36,10 +41,15 @@ const useHandleUpload = (setValue: UseFormSetValue<any>): UseHandleUploadReturn 
 
   const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-
     const newPreviewUrls = files.map((file) => URL.createObjectURL(file));
     setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
-  }, []);
+    
+    // Update form value
+    const currentFiles = fileInputRef.current?.files;
+    if (currentFiles) {
+      setValue("files", Array.from(currentFiles));
+    }
+  }, [setValue]);
 
   const handleRemoveImage = useCallback(
     (index: number) => {

@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 
 type HooksHandleModal = {
   modalName: string;
-  onOpenModal: (name: string) => () => void;
+  onSetModalName: React.Dispatch<React.SetStateAction<string>>;
   onResetModal: () => void;
 };
 
@@ -13,15 +13,9 @@ const useHandleModal = (): HooksHandleModal => {
     setModalName("");
   }, []);
 
-  const handleOpenModal = useCallback((name: string) => {
-    return () => {
-      setModalName(name);
-    };
-  }, []);
-
   return {
     modalName,
-    onOpenModal: handleOpenModal,
+    onSetModalName: setModalName,
     onResetModal: handleResetModal,
   };
 };

@@ -14,9 +14,10 @@ import MoreButton from "@/modules/home/components/Button/MoreButton";
 type PostProps = {
   data: Post;
   onRemovePost: (id: number) => void;
+  onEditPost: (post: Post) => void;
 };
 
-const Post = ({ data, onRemovePost }: PostProps) => {
+const Post = ({ data, onRemovePost, onEditPost }: PostProps) => {
   return (
     <Box className="w-full mt-4">
       <Box className="border rounded-lg px-4 pt-4 pb-2 bg-white shadow-sm">
@@ -33,14 +34,19 @@ const Post = ({ data, onRemovePost }: PostProps) => {
               <Public fontSize="small" />
             </Box>
           </Box>
-          <MoreButton id={data.id} onRemovePost={onRemovePost} />
+          <MoreButton 
+            id={data.id} 
+            data={data}
+            onRemovePost={onRemovePost}
+            onEditPost={onEditPost}
+          />
         </Box>
         <Box className="mb-3">
           <Typography variant="inherit" fontSize={14} component="div">
             {data.content}
           </Typography>
         </Box>
-        {data.file.length > 0 && <ListImage images={data.file} />}
+        {data.files.length > 0 && <ListImage images={data.files} />}
         <Box className="flex flex-col gap-1 mt-3">
           <Box className="flex items-center justify-between gap-2 px-4 pb-2">
             <Box className="flex gap-1">
