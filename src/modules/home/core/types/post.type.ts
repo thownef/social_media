@@ -7,7 +7,7 @@ export type Post = {
   isPublic: number;
   createdAt: string;
   updatedAt: string;
-  file: FileImage[];
+  files: FileImage[];
   createdBy: {
     id: number;
     firstName: string;

@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import _ from "lodash";
 import { Avatar, Box, IconButton, Typography, Button } from "@mui/material";
 import { Public, ArrowDropDown, PersonAdd, VideoCameraBack, PhotoLibrary, PhotoCamera, Close as CloseIcon } from "@mui/icons-material";
 import { RootState } from "@/shared/store";
@@ -8,6 +9,8 @@ import FileInput from "@/modules/home/components/Input/FileInput";
 import useHandleForm from "@/shared/hooks/useHandleForm";
 import { createPost, updatePost } from "@/modules/home/services/post.service";
 import useHandleUpload from "@/modules/home/hooks/useHandleUpload";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { PostFormSchema } from "@/modules/home/core/config/form/init-form-post";
 
 interface NewPostFormProps {
   onClose: () => void;
@@ -25,11 +28,8 @@ const NewPostForm = ({ onClose, onSuccess, initialData, isEdit }: NewPostFormPro
     setValue,
     formState: { errors },
   } = useForm<any>({
-    values: {
-      content: initialData?.content || "",
-      files: initialData?.files || [],
-    },
-    // resolver: yupResolver(SignInSchema),
+    values: initialData,
+    resolver: yupResolver(PostFormSchema),
     mode: "all",
   });
   const {
@@ -45,25 +45,23 @@ const NewPostForm = ({ onClose, onSuccess, initialData, isEdit }: NewPostFormPro
     onDrop,
     onDragOver,
     onDragLeave,
-  } = useHandleUpload(setValue);
+  } = useHandleUpload(setValue, initialData.files);
 
-  const handleSubmitForm = async (values: any) => {
-    if (isEdit && initialData?.id) {
-      return await updatePost(initialData.id, values);
-    }
-    return await createPost(values);
+  const handleSubmitForm = async (values: any, id?: string | number) => {
+    return id ? await updatePost(+id, values) : await createPost(values);
   };
 
   const { onSubmitForm } = useHandleForm({
     onSubmit: handleSubmitForm,
     setError,
+    id: initialData?.id,
     isValidForm: true,
     fnAfterSubmit: onClose,
     onReloadTable: onSuccess,
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmitForm)} >
+    <form onSubmit={handleSubmit(onSubmitForm)}>
       <Box className="p-2">
         <Box className="flex gap-2 mb-2">
           <Avatar src={auth?.profile?.avatar?.link || "/assets/img/profile-avatar.png"} />
@@ -189,7 +187,13 @@ const NewPostForm = ({ onClose, onSuccess, initialData, isEdit }: NewPostFormPro
       </Box>
 
       <Box className="p-2">
-        <Button type="submit" fullWidth variant="contained" className="!text-white !bg-blue-500 !font-medium !rounded-lg !py-1.5">
+        <Button
+          disabled={!_.isEmpty(errors)}
+          type="submit"
+          fullWidth
+          variant="contained"
+          className="!text-white !bg-blue-500 !font-medium !rounded-lg !py-1.5"
+        >
           Post
         </Button>
       </Box>

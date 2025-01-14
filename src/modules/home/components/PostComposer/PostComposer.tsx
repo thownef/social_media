@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/shared/store";
 
 interface PostComposerProps {
-  onOpenModal: (name: string) => () => void;
+  onOpenModal: () => void;
 }
 
 const PostComposer = ({ onOpenModal }: PostComposerProps) => {
@@ -18,7 +18,7 @@ const PostComposer = ({ onOpenModal }: PostComposerProps) => {
           placeholder="What's on your mind, John..."
           className="bg-gray-100 rounded-3xl px-4 py-2 w-full text-black [&>input]:!cursor-pointer hover:bg-gray-200"
           readOnly
-          onClick={onOpenModal("post-composer")}
+          onClick={onOpenModal}
         />
       </Box>
 
