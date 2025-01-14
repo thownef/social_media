@@ -11,18 +11,19 @@ type HooksHandleForm = {
   isValidForm: boolean;
   pathNavigate?: string;
   fnAfterSubmit?: () => void;
+  onReloadTable?: (data: any) => void;
 };
 
-const useHandleForm = ({ onSubmit, id, setError, isValidForm, pathNavigate, fnAfterSubmit }: HooksHandleForm) => {
+const useHandleForm = ({ onSubmit, id, setError, isValidForm, pathNavigate, fnAfterSubmit, onReloadTable }: HooksHandleForm) => {
   const navigate = useNavigate();
 
   const onSubmitForm = async (value: any) => {
     try {
       if (isValidForm) {
-        await onSubmit(value, id);
-
+        const res = await onSubmit(value, id);
         fnAfterSubmit && fnAfterSubmit();
         pathNavigate && navigate(pathNavigate, { replace: true });
+        onReloadTable && onReloadTable(res?.data?.data);
       }
     } catch (err: any) {
       if (err.code === HttpErrorCodeEnum.UNPROCESSABLE_CONTENT) {

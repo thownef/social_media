@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Avatar, Box, Divider, Typography, Button } from "@mui/material";
-import { ChatBubbleOutline, Favorite, MoreHoriz, Public, ThumbUpOffAlt, ThumbUp, ReplyRounded } from "@mui/icons-material";
+import { ChatBubbleOutline, Favorite, Public, ThumbUpOffAlt, ThumbUp, ReplyRounded } from "@mui/icons-material";
 import ListImage from "@/modules/home/components/ImageList/ImageList";
 import wow from "/assets/img/wow.svg";
 import sad from "/assets/img/sad.svg";
@@ -9,17 +9,19 @@ import laugh from "/assets/img/laugh.svg";
 import heart from "/assets/img/heart.svg";
 import { type Post } from "@/modules/home/core/types/post.type";
 import { getRelativeTime } from "@/shared/utils";
+import MoreButton from "@/modules/home/components/Button/MoreButton";
 
 type PostProps = {
   data: Post;
+  onRemovePost: (id: number) => void;
 };
 
-const Post = ({ data }: PostProps) => {
+const Post = ({ data, onRemovePost }: PostProps) => {
   return (
-    <Box className="w-full">
+    <Box className="w-full mt-4">
       <Box className="border rounded-lg px-4 pt-4 pb-2 bg-white shadow-sm">
         <Box className="flex !items-center gap-4 mb-3">
-          <Avatar src="/path-to-avatar.jpg" />
+          <Avatar src={data?.createdBy?.avatar?.link || "/assets/img/profile-avatar.png"} />
           <Box className="flex-1">
             <Link className="font-medium block text-sm" to="/profile">
               {`${data.createdBy.firstName || ""} ${data.createdBy.lastName || ""}`}
@@ -31,9 +33,14 @@ const Post = ({ data }: PostProps) => {
               <Public fontSize="small" />
             </Box>
           </Box>
-          <MoreHoriz />
+          <MoreButton id={data.id} onRemovePost={onRemovePost} />
         </Box>
-        <ListImage images={data.file} />
+        <Box className="mb-3">
+          <Typography variant="inherit" fontSize={14} component="div">
+            {data.content}
+          </Typography>
+        </Box>
+        {data.file.length > 0 && <ListImage images={data.file} />}
         <Box className="flex flex-col gap-1 mt-3">
           <Box className="flex items-center justify-between gap-2 px-4 pb-2">
             <Box className="flex gap-1">
