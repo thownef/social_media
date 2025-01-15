@@ -18,7 +18,7 @@ const RoleRoute = ({ children, roles }: Props) => {
     return;
   }
 
-  if (!roles.includes(user.role)) {
+  if (!roles.includes(Roles.USER)) {
     return <Navigate state={{ from: location }} to="/not-found" />;
   } else if (children) {
     return <>{children}</>;

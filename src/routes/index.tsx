@@ -6,7 +6,7 @@ import { lazyLoadModuleRoute, lazyLoadRoute } from "@/routes/LazyLoadRoutes";
 import ValidateLoginRoute from "@/routes/ValidateLoginRoute";
 import PrivateRoute from "@/routes/PrivateRoute";
 import Layout from "@/shared/layouts";
-import { groupsRoute } from "@/routes/modules";
+import { groupsRoute, messagesRoute } from "@/routes/modules";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/useAppHooks";
 import { setUser } from "@/shared/store/authSlice";
 import { getProfile } from "@/shared/services/auth.service";
@@ -40,6 +40,7 @@ const configRoutes: RouteObject[] = [
         ),
       },
       ...groupsRoute,
+      ...messagesRoute,
     ],
   },
   {
