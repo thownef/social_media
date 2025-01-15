@@ -12,32 +12,19 @@ export const axiosConfig = {
   timeout: 30000,
 };
 
-const PRESERVED_KEYS = ['files', 'file', 'images', 'avatar'] as const;
-
-const extractPreservedData = (data: Record<string, any>) => 
-  PRESERVED_KEYS.reduce((item, key) => {
-    if (key in data) item[key] = data[key];
-    return item;
-  }, {} as Record<string, any>);
-
-const decamelizeWithPreserved = (data: Record<string, any>) => ({
-  ...decamelizeKeys(data),
-  ...extractPreservedData(data)
-});
-
 // Config Request Interceptor
 export const axiosInterceptorRequestConfig = (config: any) => {
   store.dispatch(incrementCountRequest());
   store.dispatch(setLoading(true));
 
-  if (config.data) {
-    config.data = decamelizeWithPreserved(config.data);
+  if (config.data && config.headers["Content-Type"] !== "multipart/form-data") {
+    config.data = decamelizeKeys(config.data);
   }
-  
+
   if (config.params) {
     config.params = decamelizeKeys(config.params);
   }
-  
+
   if (localStorage.getItem("bearer_token")) {
     config.headers.Authorization = `Bearer ${localStorage.getItem("bearer_token")}`;
   }

@@ -11,16 +11,10 @@ import {
 const axiosInstance = axios.create(axiosConfig);
 
 // set request global
-axiosInstance.interceptors.request.use(
-  axiosInterceptorRequestConfig,
-  axiosInterceptorRequestError,
-);
+axiosInstance.interceptors.request.use(axiosInterceptorRequestConfig, axiosInterceptorRequestError);
 
 // set response global
-axiosInstance.interceptors.response.use(
-  axiosInterceptorResponseConfig,
-  axiosInterceptorResponseError,
-);
+axiosInstance.interceptors.response.use(axiosInterceptorResponseConfig, axiosInterceptorResponseError);
 
 export const ApiService = {
   get(url: string, params = {}, headers = {}, options = {}) {
@@ -37,5 +31,14 @@ export const ApiService = {
 
   delete(url: string, params = {}) {
     return axiosInstance.delete(`${url}`, { params });
+  },
+
+  upload(url: string, body: any, params = {}) {
+    return axiosInstance.post(`${url}`, body, {
+      params,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   },
 };
