@@ -55,7 +55,8 @@ const NewPostForm = ({ onClose, onSuccess, initialData }: NewPostFormProps) => {
 
   const handleSubmitForm = async (values: any, id?: string | number) => {
     const { files, ...rest } = values;
-    const transformValues = { ...decamelizeKeys(rest), files };
+    const transformFiles = files.filter((file: any) => file instanceof File);
+    const transformValues = { ...decamelizeKeys(rest), files: transformFiles };
 
     return id ? await updatePost(+id, transformValues) : await createPost(transformValues);
   };
