@@ -7,18 +7,12 @@ export function getPosts(params: { [key: string]: any }) {
 }
 
 export function createPost(body: { [key: string]: any }) {
-  return ApiService.post(`${BaseUrl}`, body, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  }).then((resp) => resp);
+  return ApiService.upload(`${BaseUrl}`, body).then((resp) => resp);
 }
 
 export function updatePost(id: number, body: { [key: string]: any }) {
-  return ApiService.put(`${BaseUrl}/${id}`, body, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
+  return ApiService.upload(`${BaseUrl}/${id}`, body, {
+    _method: "PUT",
   }).then((resp) => resp);
 }
 

@@ -15,3 +15,10 @@ export type Post = {
     avatar: FileImage;
   };
 };
+
+export type PostForm = {
+  id?: number;
+  content: string;
+  files: FileImage[];
+};
+

@@ -1,12 +1,7 @@
 import * as Yup from "yup";
-import { FileImage } from "@/shared/core/types/common.type";
+import { PostForm } from "@/modules/home/core/types/post.type";
 
-export type InitFormPost = {
-  content: string;
-  files: FileImage[] | File[];
-};
-
-export const initFormPost: InitFormPost = {
+export const initFormPost: PostForm = {
   content: "",
   files: [],
 };
