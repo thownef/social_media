@@ -4,6 +4,7 @@ export enum ModuleName {
   MARKETPLACE = "marketplace",
   GROUP = "group",
   GAMING = "gaming",
+  MESSAGES = "messages",
 }
 
 export enum PageName {
@@ -13,6 +14,7 @@ export enum PageName {
   MARKETPLACE = "marketplace",
   GROUP = "group",
   GAMING = "gaming",
+  MESSAGES = "messages",
 }
 
 export enum PagePath {
@@ -22,4 +24,5 @@ export enum PagePath {
   MARKETPLACE = "/marketplace",
   GROUP = "/group",
   GAMING = "/gaming",
+  MESSAGES = "/messages",
 }
