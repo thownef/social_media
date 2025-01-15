@@ -1,20 +1,37 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useCallback, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { PagePath } from "@/shared/core/enum";
-import { AppBar, Toolbar, InputBase, IconButton, Badge, Avatar, Box, Tabs } from "@mui/material";
-import { Notifications, Message, Search } from "@mui/icons-material";
+import { AppBar, Toolbar, InputBase, IconButton, Badge, Avatar, Box, Tabs, ListItemIcon, Menu, MenuItem } from "@mui/material";
+import { Notifications, Message, Search, Settings, Logout } from "@mui/icons-material";
 import logo from "/assets/img/logo.png";
 import LinkTab from "@/shared/components/LinkTab/LinkTab";
 import { MenuList } from "@/shared/core/config/columns/menu-list";
-import { useAppSelector } from "@/shared/hooks/useAppHooks";
+import { useAppDispatch, useAppSelector } from "@/shared/hooks/useAppHooks";
+import { logout } from "@/shared/store/authSlice";
 
 const Navbar = () => {
   const auth = useAppSelector((state) => state.user.user);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [value, setValue] = useState("home");
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
+    navigate(PagePath.AUTH);
+  }, []);
 
   return (
     <AppBar position="sticky" className="!bg-white !shadow-md !h-14 !px-4">
@@ -62,10 +79,62 @@ const Navbar = () => {
               <Message fontSize="medium" />
             </Badge>
           </IconButton>
-          <IconButton className="!p-1 [&:hover]:!bg-black/[0.1]">
+          <IconButton onClick={handleClick} className="!p-1 [&:hover]:!bg-black/[0.1]">
             <Avatar className="!w-8 !h-8" src={auth ? auth.profile?.avatar?.link : "/assets/img/profile-avatar.png"} />
           </IconButton>
         </Box>
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          slotProps={{
+            paper: {
+              elevation: 0,
+              sx: {
+                width: 200,
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  ml: -0.5,
+                  mr: 1,
+                },
+                "&::before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            },
+          }}
+          transformOrigin={{ horizontal: "right", vertical: "top" }}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        >
+          <MenuItem onClick={handleClose}>
+            <Avatar className="!w-8 !h-8" src={auth ? auth.profile?.avatar?.link : "/assets/img/profile-avatar.png"} /> Profile
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
       </Toolbar>
     </AppBar>
   );
