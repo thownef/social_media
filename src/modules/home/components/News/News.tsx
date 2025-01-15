@@ -38,7 +38,7 @@ const News = () => {
                 <Close />
               </IconButton>
             </Box>
-            <NewPostForm onClose={onResetInitData} onSuccess={onPrependData} initialData={initData} isEdit={!!initData} />
+            <NewPostForm onClose={onResetInitData} onSuccess={onPrependData} initialData={initData} />
           </Box>
         </Fade>
       </Modal>

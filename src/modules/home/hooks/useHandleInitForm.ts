@@ -1,12 +1,9 @@
 import { useCallback, useState } from "react";
-import { Post } from "@/modules/home/core/types/post.type";
-import { initFormPost, InitFormPost } from "@/modules/home/core/config/form/init-form-post";
+import { Post, PostForm } from "@/modules/home/core/types/post.type";
+import { initFormPost } from "@/modules/home/core/config/form/init-form-post";
 
 const useHandleInitForm = (onSetModalName: React.Dispatch<React.SetStateAction<string>>) => {
-  const [initData, setInitData] = useState<InitFormPost>({
-    content: "",
-    files: [],
-  });
+  const [initData, setInitData] = useState<PostForm>(initFormPost);
 
   const handleOpenCreatePost = useCallback(() => {
     onSetModalName("post-composer");
@@ -16,8 +13,9 @@ const useHandleInitForm = (onSetModalName: React.Dispatch<React.SetStateAction<s
     onSetModalName("post-composer");
     setInitData((prev) => ({
       ...prev,
-      content: post.content,
-      files: post.files,
+      id: post.id,
+      content: post.content || "",
+      files: post.files || [],
     }));
   }, []);
 

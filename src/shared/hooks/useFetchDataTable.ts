@@ -73,7 +73,15 @@ const useFetchDataTable = <T extends { id: number }>(
   }, []);
 
   const handlePrependData = useCallback((newData: T) => {
-    setDataTable(prev => [newData, ...prev]);
+    setDataTable(prev => {
+      const index = prev.findIndex(item => item.id === newData.id);
+      if (index !== -1) {
+        const newArray = [...prev];
+        newArray[index] = newData;
+        return newArray;
+      }
+      return [newData, ...prev];
+    });
   }, []);
 
   const handleRemoveData = useCallback((id: number) => {

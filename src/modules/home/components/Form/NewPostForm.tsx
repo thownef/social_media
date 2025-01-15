@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
@@ -10,24 +11,29 @@ import useHandleForm from "@/shared/hooks/useHandleForm";
 import { createPost, updatePost } from "@/modules/home/services/post.service";
 import useHandleUpload from "@/modules/home/hooks/useHandleUpload";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { PostFormSchema } from "@/modules/home/core/config/form/init-form-post";
+import { FormPost, PostFormSchema } from "@/modules/home/core/config/form/init-form-post";
+import { PostForm } from "@/modules/home/core/types/post.type";
+import { FileImage } from "@/shared/core/types";
+import { decamelizeKeys } from "humps";
 
 interface NewPostFormProps {
   onClose: () => void;
   onSuccess: (params: any) => void;
-  initialData?: any;
-  isEdit?: boolean;
+  initialData: PostForm;
 }
 
-const NewPostForm = ({ onClose, onSuccess, initialData, isEdit }: NewPostFormProps) => {
+const NewPostForm = ({ onClose, onSuccess, initialData }: NewPostFormProps) => {
   const auth = useSelector((state: RootState) => state.user.user);
+  const fileList = useMemo(() => initialData.files.map((file: FileImage) => ({ link: file.link, id: file.id })), [initialData.files]);
+
   const {
     handleSubmit,
     control,
     setError,
     setValue,
+    watch,
     formState: { errors },
-  } = useForm<any>({
+  } = useForm<FormPost>({
     values: initialData,
     resolver: yupResolver(PostFormSchema),
     mode: "all",
@@ -45,17 +51,20 @@ const NewPostForm = ({ onClose, onSuccess, initialData, isEdit }: NewPostFormPro
     onDrop,
     onDragOver,
     onDragLeave,
-  } = useHandleUpload(setValue, initialData.files);
+  } = useHandleUpload(setValue, watch, fileList);
 
   const handleSubmitForm = async (values: any, id?: string | number) => {
-    return id ? await updatePost(+id, values) : await createPost(values);
+    const { files, ...rest } = values;
+    const transformValues = { ...decamelizeKeys(rest), files };
+
+    return id ? await updatePost(+id, transformValues) : await createPost(transformValues);
   };
 
   const { onSubmitForm } = useHandleForm({
     onSubmit: handleSubmitForm,
     setError,
-    id: initialData?.id,
-    isValidForm: true,
+    id: initialData.id,
+    isValidForm: _.isEmpty(errors),
     fnAfterSubmit: onClose,
     onReloadTable: onSuccess,
   });
@@ -142,9 +151,9 @@ const NewPostForm = ({ onClose, onSuccess, initialData, isEdit }: NewPostFormPro
                   </Typography>
                 </Box>
 
-                {previewUrls.slice(0, 5).map((url: string, index: number) => (
-                  <Box key={url} className="relative aspect-square">
-                    <img src={url} alt={`Preview ${index + 1}`} className="w-full h-full object-cover rounded-lg" />
+                {previewUrls.slice(0, 5).map((url: { link: string }, index: number) => (
+                  <Box key={url.link} className="relative aspect-square">
+                    <img src={url.link} alt={`Preview ${index + 1}`} className="w-full h-full object-cover rounded-lg" />
 
                     {index === 4 && previewUrls.length > 5 && (
                       <Box className="absolute inset-0 bg-black bg-opacity-50 rounded-lg flex items-center justify-center">

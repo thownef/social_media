@@ -41,6 +41,7 @@ export type Pagination = {
 };
 
 export type FileImage = {
+  id: number;
   name: string;
   link: string;
   type: string;
