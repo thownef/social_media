@@ -15,11 +15,11 @@ export const userSlice = createSlice({
   reducers: {
     login: (state, action) => {
       const { user, accessToken } = action.payload;
-      localStorage.setItem("bearer_token", accessToken);
+      localStorage.setItem("accessToken", accessToken);
       state.user = user;
     },
     logout: (state) => {
-      localStorage.removeItem("bearer_token");
+      localStorage.removeItem("accessToken");
       state.user = null;
     },
     setUser: (state, action) => {
