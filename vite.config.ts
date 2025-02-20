@@ -12,10 +12,19 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/broadcasting': {
+      '/broadcasting/auth': {
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,
+        secure: false,
+        configure: (proxy, _options) => {
+          proxy.on('proxyReq', (proxyReq, req) => {
+            const token = '';
+            if (token) {
+              proxyReq.setHeader('Authorization', `Bearer ${token}`);
+            }
+          });
+        }
       },
-    }
+    },
   }
 });
