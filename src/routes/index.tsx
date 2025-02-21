@@ -54,7 +54,7 @@ export const router = createBrowserRouter(configRoutes);
 const RoutesApp = () => {
   const dispatch = useAppDispatch();
   const authProfileStore = useAppSelector((state) => state.user.user);
-  const isAuthenticated = localStorage.getItem("bearer_token");
+  const isAuthenticated = localStorage.getItem("accessToken");
 
   useEffect(() => {
     (async () => {
@@ -64,7 +64,7 @@ const RoutesApp = () => {
           const profileData = profileResponse?.data?.data || {};
 
           if (_.isEmpty(profileData)) {
-            localStorage.removeItem("bearer_token");
+            localStorage.removeItem("accessToken");
           } else {
             dispatch(setUser(profileData));
           }
