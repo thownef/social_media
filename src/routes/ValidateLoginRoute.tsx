@@ -7,7 +7,7 @@ type Props = {
 
 const ValidateLoginRoute = ({ children }: Props) => {
   const location = useLocation();
-  const isAuthenticated = localStorage.getItem("bearer_token");
+  const isAuthenticated = localStorage.getItem("accessToken");
 
   if (isAuthenticated) {
     return <Navigate state={{ from: location }} to="/" />;
