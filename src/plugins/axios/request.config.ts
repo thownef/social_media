@@ -25,8 +25,8 @@ export const axiosInterceptorRequestConfig = (config: any) => {
     config.params = decamelizeKeys(config.params);
   }
 
-  if (localStorage.getItem("bearer_token")) {
-    config.headers.Authorization = `Bearer ${localStorage.getItem("bearer_token")}`;
+  if (localStorage.getItem("accessToken")) {
+    config.headers.Authorization = `Bearer ${localStorage.getItem("accessToken")}`;
   }
 
   return config;
