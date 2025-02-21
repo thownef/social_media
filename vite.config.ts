@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { tokenStore } from "./src/shared/utils/tokenStore";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -18,7 +19,9 @@ export default defineConfig({
         secure: false,
         configure: (proxy, _options) => {
           proxy.on('proxyReq', (proxyReq, req) => {
-            const token = '';
+            const cookies = req.headers.cookie?.match(/accessToken=([^;]+)/);
+            const token = cookies ? cookies[1] : null;
+
             if (token) {
               proxyReq.setHeader('Authorization', `Bearer ${token}`);
             }
