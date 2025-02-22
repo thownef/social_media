@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
 import { transformQueryParams, transformQueryString } from "@/shared/utils";
@@ -33,8 +33,10 @@ const useFetchDataTable = <T extends { id: number }>(
   const [dataTable, setDataTable] = useState<T[]>([]);
   const [pagination, setPagination] = useState<Pagination | {}>({});
   const [queryParams, setQueryParams] = useState<{ [key: string]: any }>({});
+  const isMounted = useRef(true);
   const fetch = useCallback(
     async (params: any) => {
+      isMounted.current = true;
       const { page = 1, ...otherParams } =
         "page" in params ? { ...queryParams, ...params } : params;
       const transformParams = transformQueryParams(otherParams);
@@ -45,6 +47,7 @@ const useFetchDataTable = <T extends { id: number }>(
       });
 
       if (!res) return;
+      if (!isMounted.current) return;
       const { pagination, data } = res;
 
       data && setDataTable(data);
@@ -86,6 +89,12 @@ const useFetchDataTable = <T extends { id: number }>(
 
   const handleRemoveData = useCallback((id: number) => {
     setDataTable(prev => prev.filter(item => item.id !== id));
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
   }, []);
 
   return {
