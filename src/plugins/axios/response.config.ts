@@ -1,12 +1,12 @@
-import { camelizeKeys } from 'humps';
+import { camelizeKeys } from "humps";
 import { ResponseError } from "@/shared/core/types/common.type";
 import { decrementCountRequest, resetCountRequest, setLoading } from "@/shared/store/loadingSlice";
 import { HttpErrorCodeEnum } from "@/shared/core/enum/http-error-code.enum";
 import { logout } from "@/shared/store/authSlice";
-import { setNotification } from "@/shared/store/notificationSlice";
 import { handleServerError, handleServerSuccess } from "@/shared/utils/handle-response-server";
 import { globalNavigate } from "@/shared/components/GlobalHistory/GlobalHistory";
-import { store } from '@/shared/store';
+import { store } from "@/shared/store";
+import { addToast } from "@heroui/react";
 
 // Config Response Interceptor
 export const axiosInterceptorResponseConfig = (response: any) => {
@@ -70,12 +70,18 @@ export const axiosInterceptorResponseError = (error: ResponseError) => {
       store.dispatch(logout());
       globalNavigate(data.url_return);
     } else {
-      store.dispatch(setNotification({ message: "System Error", type: "error" }));
+      addToast({
+        description: "System Error",
+        color: "danger",
+      });
     }
   }
 
   if (status === HttpErrorCodeEnum.BAD_REQUEST) {
-    store.dispatch(setNotification({ message: "System Error", type: "error" }));
+    addToast({
+      description: "System Error",
+      color: "danger",
+    });
   }
 
   return Promise.reject(error);

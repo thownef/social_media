@@ -4,7 +4,7 @@ import { ToastProvider } from "@heroui/toast";
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <HeroUIProvider>
-      <ToastProvider />
+      <ToastProvider placement="top-right" toastProps={{ timeout: 1000 }} />
       {children}
     </HeroUIProvider>
   );
