@@ -3,7 +3,7 @@ import { Controller } from "react-hook-form";
 type FileInputProps = {
   control: any;
   name: string;
-  inputRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: React.RefObject<HTMLInputElement | null>;
   accept?: string;
   multiple?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;

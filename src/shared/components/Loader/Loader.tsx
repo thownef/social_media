@@ -1,4 +1,5 @@
 import { RootState } from "@/shared/store";
+import { Spinner } from "@heroui/react";
 import { useSelector } from "react-redux";
 
 const Loader = () => {
@@ -7,7 +8,7 @@ const Loader = () => {
   return loading ? (
     <div className="w-full h-screen fixed top-0 left-0 bg-[#0000003b] z-[9999]">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" />
+        <Spinner />
       </div>
     </div>
   ) : null;
