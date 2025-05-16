@@ -10,6 +10,7 @@ import { groupsRoute, messagesRoute } from "@/routes/modules";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/useAppHooks";
 import { setUser } from "@/shared/store/authSlice";
 import { getProfile } from "@/shared/services/auth.service";
+import { HeroUIProvider } from "@heroui/react";
 const NavigateComponent = lazy(
   () => import("@/shared/components/Navigate/Navigate"),
 );
@@ -27,7 +28,9 @@ const configRoutes: RouteObject[] = [
     path: "/",
     element: (
       <PrivateRoute>
-        <Layout />
+        <HeroUIProvider>
+          <Layout />
+        </HeroUIProvider>
       </PrivateRoute>
     ),
     children: [

@@ -1,13 +1,13 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import _ from "lodash";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@heroui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { FormInput } from "@/shared/components/Input";
 import { FormSignIn, initForm, SignInSchema } from "@/modules/auth/core/config/form/signin-form";
-import { Button } from "@mui/material";
 import { PagePath } from "@/shared/core/enum";
 import useHandleForm from "@/shared/hooks/useHandleForm";
-import { useDispatch } from "react-redux";
 import { login as loginStore } from "@/shared/store/authSlice";
 import { login } from "@/modules/auth/services/auth.service";
 
@@ -44,28 +44,26 @@ const LoginForm = () => {
   });
 
   return (
-    <div className="flex w-full">
-      <form onSubmit={handleSubmit(onSubmitForm)} className="w-[572px] bg-white p-8 rounded-lg shadow-md gap-3 z-50">
+    <div className="flex w-full justify-center">
+      <form onSubmit={handleSubmit(onSubmitForm)} className="w-[460px] bg-white p-8 gap-3">
         <div className="flex flex-col gap-3">
-          <h1 className="text-4xl font-medium text-center leading-10 mb-8">Sign In</h1>
-          <FormInput control={control} label="Email" name="email" />
-          <FormInput control={control} label="Password" name="password" type="password" />
+          <h1 className="!text-3xl font-medium text-center leading-10 mb-8">Sign In</h1>
+          <FormInput control={control} label="Email" name="email" placeholder="Enter your email" isRequired />
+          <FormInput control={control} label="Password" name="password" type="password" placeholder="Enter your password" isRequired />
           <div className="flex items-center justify-between text-sm mt-2">
             <label className="flex items-center gap-2 text-gray-600">
               <input type="checkbox" className="rounded" />
               Remember me
             </label>
-            <Link to="/forgot-password" className="text-[#E86D2A] hover:underline">
+            <Link to="/forgot-password" className="text-[rgb(82,103,211)] hover:underline">
               Forgot password?
             </Link>
           </div>
         </div>
         <div className="mt-8">
           <Button
-            variant="contained"
-            size="large"
-            className="!w-full !py-3 !normal-case !text-base !bg-[#E86D2A] !rounded-lg !font-medium hover:!bg-[#d65d1e]"
             type="submit"
+            className="w-full py-3 text-base bg-[rgb(82,103,211)] rounded-lg font-medium text-white hover:bg-[rgb(82,82,211)] transition-colors"
           >
             Sign In
           </Button>
@@ -73,7 +71,7 @@ const LoginForm = () => {
 
         <p className="text-center text-gray-600 mt-6">
           Don't have an account?{" "}
-          <Link to={PagePath.REGISTER} className="text-[#E86D2A] hover:underline font-medium">
+          <Link to={PagePath.REGISTER} className="text-[rgb(82,103,211)] hover:underline font-medium">
             Sign up
           </Link>
         </p>
