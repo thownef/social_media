@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs";
+import { DateValue } from "@internationalized/date";
 
 export type AuthLogin = {
   email: string;
@@ -9,10 +9,9 @@ export type AuthRegister = {
   loginType: number;
   firstName: string;
   lastName: string;
-  dateOfBirth: Dayjs;
-  gender: number;
+  dateOfBirth: DateValue;
+  gender: string;
   email: string;
-  phone: string;
   password: string;
   confirmPassword: string;
 };

@@ -1,6 +1,6 @@
 export enum GenderEnum {
-  MALE = 1,
-  FEMALE = 2,
+  MALE = "1",
+  FEMALE = "2",
 }
 
 export const GenderEnumUsingName = {

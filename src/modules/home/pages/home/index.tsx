@@ -1,16 +1,17 @@
 import News from "@/modules/home/components/News/News";
-import PostComposer from "@/modules/home/components/PostComposer/PostComposer";
-import { Box } from "@mui/material";
 
 const HomePage = () => {
   return (
-    <Box className="flex">
-      <Box className="flex-1">Left</Box>
-      <Box className="flex-1 p-4">
-        <News />
-      </Box>
-      <Box className="flex-1">Right</Box>
-    </Box>
+    <div className="flex px-4">
+      <div className="flex-1/6">Left</div>
+      <div className="flex-2/3 flex px-4 gap-4">
+        <div className="flex-3/5">
+          <News />
+        </div>
+        <div className="flex-2/5">Right</div>
+      </div>
+      <div className="flex-1/6">Right</div>
+    </div>
   );
 };
 
