@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { Box, Fade, IconButton, Modal, Typography } from "@mui/material";
-import { Close } from "@mui/icons-material";
+import { Modal, ModalContent, ModalHeader, ModalBody } from "@heroui/react";
 import Post from "@/modules/home/components/Post/Post";
 import PostComposer from "@/modules/home/components/PostComposer/PostComposer";
 import { type Post as PostType } from "@/modules/home/core/types/post.type";
@@ -12,7 +11,7 @@ import useHandleInitForm from "@/modules/home/hooks/useHandleInitForm";
 
 const News = () => {
   const { dataTable, onFetch, onPrependData, onRemoveData } = useFetchDataTable<PostType>(fetchPostList);
-  const { modalName, onSetModalName, onResetModal } = useHandleModal();
+  const { modalName, onSetModalName } = useHandleModal();
   const { initData, onOpenCreatePost, onOpenEditPost, onResetInitData } = useHandleInitForm(onSetModalName);
 
   useEffect(() => {
@@ -20,29 +19,35 @@ const News = () => {
   }, []);
 
   return (
-    <Box className="mt-4">
+    <div className="mt-4">
       <PostComposer onOpenModal={onOpenCreatePost} />
-      <Box className="mt-4">
+      <div className="mt-4">
         {dataTable.map((item) => (
           <Post key={item.id} data={item} onRemovePost={onRemoveData} onEditPost={onOpenEditPost} />
         ))}
-      </Box>
-      <Modal open={modalName === "post-composer"} onClose={onResetModal} closeAfterTransition>
-        <Fade in={modalName === "post-composer"}>
-          <Box className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[500px] bg-white rounded-lg p-0">
-            <Box className="p-2 border-b border-gray-200 relative">
-              <Typography variant="h6" component="h2" align="center">
-                {initData ? "Edit post" : "Create post"}
-              </Typography>
-              <IconButton onClick={onResetInitData} size="small" className="!absolute right-2 top-2 !bg-gray-200 rounded-full">
-                <Close />
-              </IconButton>
-            </Box>
-            <NewPostForm onClose={onResetInitData} onSuccess={onPrependData} initialData={initData} />
-          </Box>
-        </Fade>
+      </div>
+
+      <Modal
+        isOpen={modalName === "post-composer"}
+        classNames={{
+          closeButton: "!cursor-pointer",
+        }}
+        size="xl"
+        onClose={onResetInitData}
+        placement="center"
+      >
+        <ModalContent>
+          {() => (
+            <>
+              <ModalHeader className="flex flex-col gap-1 !text-2xl text-center border-b border-gray-300">Create post</ModalHeader>
+              <ModalBody>
+                <NewPostForm onClose={onResetInitData} onSuccess={onPrependData} initialData={initData} />
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
       </Modal>
-    </Box>
+    </div>
   );
 };
 

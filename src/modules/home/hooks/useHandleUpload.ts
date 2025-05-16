@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 interface HookReturnHandleUpload {
-  fileInputRef: React.RefObject<HTMLInputElement>;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
   previewUrls: { link: string; id?: number }[];
   isDragging: boolean;
   showImageUpload: boolean;
