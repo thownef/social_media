@@ -1,15 +1,3 @@
-import Navbar from "@/shared/layouts/Navbar/Navbar";
-import { Outlet } from "react-router-dom";
+export { default as RootLayout } from "./RootLayout";
+export { default as MessagesLayout } from "./MessagesLayout";
 
-const Layout = () => {
-  return (
-    <div className="h-screen bg-[#faf9f7]">
-      <Navbar/>
-      <div>
-        <Outlet />
-      </div>
-    </div>
-  );
-};
-
-export default Layout;

@@ -5,15 +5,12 @@ import { ModuleName, PageName, PagePath } from "@/shared/core/enum/page.enum";
 import { lazyLoadModuleRoute, lazyLoadRoute } from "@/routes/LazyLoadRoutes";
 import ValidateLoginRoute from "@/routes/ValidateLoginRoute";
 import PrivateRoute from "@/routes/PrivateRoute";
-import Layout from "@/shared/layouts";
 import { groupsRoute, messagesRoute } from "@/routes/modules";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/useAppHooks";
 import { setUser } from "@/shared/store/authSlice";
 import { getProfile } from "@/shared/services/auth.service";
-import { HeroUIProvider } from "@heroui/react";
-const NavigateComponent = lazy(
-  () => import("@/shared/components/Navigate/Navigate"),
-);
+import { RootLayout, MessagesLayout } from "@/shared/layouts";
+const NavigateComponent = lazy(() => import("@/shared/components/Navigate/Navigate"));
 
 const configRoutes: RouteObject[] = [
   {
@@ -28,9 +25,7 @@ const configRoutes: RouteObject[] = [
     path: "/",
     element: (
       <PrivateRoute>
-        <HeroUIProvider>
-          <Layout />
-        </HeroUIProvider>
+        <RootLayout />
       </PrivateRoute>
     ),
     children: [
@@ -43,8 +38,16 @@ const configRoutes: RouteObject[] = [
         ),
       },
       ...groupsRoute,
-      ...messagesRoute,
     ],
+  },
+  {
+    path: PagePath.MESSAGES,
+    element: (
+      <PrivateRoute>
+        <MessagesLayout />
+      </PrivateRoute>
+    ),
+    children: [...messagesRoute]
   },
   {
     path: "*",
