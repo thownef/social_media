@@ -1,9 +1,49 @@
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
+import { camelizeKeys } from 'humps';
 
 window.Pusher = Pusher;
 
-export const echo = new Echo({
+class CustomEcho extends Echo<'reverb'> {
+  listen(channel: string, event: string, callback: Function) {
+    return super.listen(channel, event, (data: any) => {
+      callback(camelizeKeys(data));
+    });
+  }
+
+  private(channel: string) {
+    return super.private(channel);
+  }
+
+  join(channel: string) {
+    const presence = super.join(channel);
+    const originalHere = presence.here.bind(presence);
+    const originalJoining = presence.joining.bind(presence);
+    const originalLeaving = presence.leaving.bind(presence);
+
+    presence.here = (callback: Function) => {
+      return originalHere((data: any) => {
+        callback(camelizeKeys(data));
+      });
+    };
+
+    presence.joining = (callback: Function) => {
+      return originalJoining((data: any) => {
+        callback(camelizeKeys(data));
+      });
+    };
+
+    presence.leaving = (callback: Function) => {
+      return originalLeaving((data: any) => {
+        callback(camelizeKeys(data));
+      });
+    };
+
+    return presence;
+  }
+}
+
+export const echo = new CustomEcho({
   broadcaster: "reverb",
   key: import.meta.env.VITE_APP_REVERB_APP_KEY,
   wsHost: import.meta.env.VITE_APP_REVERB_HOST,
