@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@heroui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormInput } from "@/shared/components/Input";
@@ -14,6 +14,8 @@ import { login } from "@/modules/auth/services/auth.service";
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const {
     handleSubmit,
     control,
@@ -31,7 +33,8 @@ const LoginForm = () => {
       const { user, accessToken } = res.data.data;
 
       dispatch(loginStore({ user, accessToken }));
-      navigate("/");
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
     }
     return res;
   };
@@ -40,7 +43,6 @@ const LoginForm = () => {
     onSubmit,
     setError,
     isValidForm: _.isEmpty(errors),
-    pathNavigate: PagePath.HOME,
   });
 
   return (

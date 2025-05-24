@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { PagePath } from "@/shared/core/enum";
 
 type Props = {
   children?: ReactNode;
@@ -10,7 +11,7 @@ const PrivateRoute = ({ children }: Props) => {
   const isAuthenticated = localStorage.getItem("accessToken");
 
   if (!isAuthenticated) {
-    return <Navigate state={{ from: location }} to="/login" />;
+    return <Navigate state={{ from: location }} to={PagePath.AUTH} />;
   } else if (children) {
     return <>{children}</>;
   } else {
