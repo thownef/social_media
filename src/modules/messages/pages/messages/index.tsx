@@ -8,7 +8,7 @@ import useFetchDataTable from "@/shared/hooks/useFetchDataTable";
 import { fetchConversationList } from "@/modules/messages/server-action/conversation";
 import { User } from "@/shared/core/types";
 const MessagesPage = () => {
-  const { dataTable, onSetDataTable, onFetch } = useFetchDataTable<Conversation>(fetchConversationList);
+  const { dataTable, onFetch } = useFetchDataTable<Conversation>(fetchConversationList);
   const [onlineUsers, setOnlineUsers] = useState<Set<number>>(new Set());
   useEffect(() => {
     onFetch({ page: 1 });
