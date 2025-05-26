@@ -51,7 +51,13 @@ const MessagesPage = () => {
         selectedConversation={selectedConversation}
         onSelectConversation={handleSelectConversation}
       />
-      <ChatMessages conversation={selectedConversation} />
+      {!selectedConversation ? (
+        <div className="flex flex-col flex-1 border-r border-gray-200 items-center justify-center">
+          <p className="text-gray-500">Select a conversation to start messaging</p>
+        </div>
+      ) : (
+        <ChatMessages conversation={selectedConversation} />
+      )}
       <ChatDetail />
     </div>
   );

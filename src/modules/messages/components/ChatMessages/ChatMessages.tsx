@@ -1,4 +1,6 @@
 import { Suspense, useState } from "react";
+import { useSelector } from "react-redux";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Avatar, Button, Input } from "@heroui/react";
 import {
   MagnifyingGlassIcon,
@@ -14,19 +16,75 @@ import Messages from "@/modules/messages/components/Messages/Messages";
 import MessageSkeleton from "@/modules/messages/components/Skeleton/MessageSkeleton";
 import { Conversation } from "@/modules/messages/core/types/conversation.type";
 import { sendMessage } from "@/modules/messages/services/message.service";
-import { useMutation } from "@tanstack/react-query";
+import { RootState } from "@/shared/store";
 
 type ChatMessagesProps = {
-  conversation: Conversation | null;
+  conversation: Conversation;
 };
 
 const ChatMessages = ({ conversation }: ChatMessagesProps) => {
+  const auth = useSelector((state: RootState) => state.user.user);
   const [message, setMessage] = useState("");
+
+  const queryClient = useQueryClient();
 
   const { mutate: sendMessageMutation, isPending } = useMutation({
     mutationFn: sendMessage,
-    onSuccess: () => {
+    onMutate: async (newMessage) => {
+      const tempMessage = {
+        id: new Date().getTime(),
+        message: newMessage.message,
+        userId: auth?.id,
+        isLoading: true,
+        createdAt: new Date().toISOString(),
+      };
+
+      queryClient.setQueryData(["messages", conversation.id], (oldData: any) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+          pages: [
+            {
+              ...oldData.pages[0],
+              data: [tempMessage, ...oldData.pages[0].data],
+            },
+            ...oldData.pages.slice(1),
+          ],
+        };
+      });
+
+      return { tempMessage };
+    },
+    onSuccess: (res, _, context) => {
       setMessage("");
+      
+
+      if (context?.tempMessage) {
+        queryClient.setQueryData(["messages", conversation.id], (oldData: any) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page: any) => ({
+              ...page,
+              data: page.data.map((msg: any) => (msg.id === context.tempMessage.id ? res.data.data : msg)),
+            })),
+          };
+        });
+      }
+    },
+    onError: (_, __, context) => {
+      if (context?.tempMessage) {
+        queryClient.setQueryData(["messages", conversation.id], (oldData: any) => {
+          if (!oldData) return oldData;
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page: any) => ({
+              ...page,
+              data: page.data.filter((msg: any) => msg.id !== context.tempMessage.id),
+            })),
+          };
+        });
+      }
     },
   });
 
@@ -34,21 +92,13 @@ const ChatMessages = ({ conversation }: ChatMessagesProps) => {
     e.preventDefault();
 
     const trimmedMessage = message.trim();
-    if (!trimmedMessage || !conversation?.id) return;
+    if (!trimmedMessage) return;
 
     sendMessageMutation({
-      conversation_id: conversation.id,
+      conversationId: conversation.id,
       message: trimmedMessage,
     });
   };
-
-  if (!conversation) {
-    return (
-      <div className="flex flex-col flex-1 border-r border-gray-200 items-center justify-center">
-        <p className="text-gray-500">Select a conversation to start messaging</p>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col flex-1 border-r border-gray-200">

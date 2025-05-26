@@ -35,10 +35,6 @@ const Messages = ({ conversation }: { conversation: Conversation }) => {
       queryClient.setQueryData(["messages", conversation.id], (oldData: any) => {
         if (!oldData) return oldData;
 
-        const messageExists = oldData.pages.some((page: any) => page.data.some((msg: Message) => msg.id === data.id));
-
-        if (messageExists) return oldData;
-
         return {
           ...oldData,
           pages: [
@@ -59,6 +55,8 @@ const Messages = ({ conversation }: { conversation: Conversation }) => {
     },
     [conversation.id]
   );
+
+  console.log(pages);
 
   useEffect(() => {
     const messagesContainer = loadMoreRef.current?.closest(".overflow-y-auto");
@@ -106,11 +104,16 @@ const Messages = ({ conversation }: { conversation: Conversation }) => {
         page?.data.map((message: Message) => (
           <div key={message.id} className={`max-w-xs mb-3 ${Number(message.userId) === Number(conversation.userId) ? "" : "ml-auto"}`}>
             <div
-              className={`text-sm rounded-2xl px-4 py-2 break-words ${
+              className={`text-sm rounded-2xl px-4 py-2 break-words relative ${
                 message.userId === conversation.userId ? "bg-gray-200 text-gray-900" : "bg-blue-600 text-white"
               }`}
             >
               {message.message}
+              {message.isLoading && (
+                <div className="absolute -right-3 bottom-0">
+                  <div className="animate-spin rounded-full h-3 w-3 border-2 border-gray-400 border-t-transparent"></div>
+                </div>
+              )}
             </div>
           </div>
         ))
