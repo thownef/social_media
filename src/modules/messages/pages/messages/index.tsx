@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { echo } from "@/shared/utils/echo";
 import Sidebar from "@/modules/messages/components/Sidebar/Sidebar";
 import ChatMessages from "@/modules/messages/components/ChatMessages/ChatMessages";
@@ -10,6 +10,14 @@ import { User } from "@/shared/core/types";
 const MessagesPage = () => {
   const { dataTable, onFetch } = useFetchDataTable<Conversation>(fetchConversationList);
   const [onlineUsers, setOnlineUsers] = useState<Set<number>>(new Set());
+  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
+
+  const handleSelectConversation = useCallback((conversation: Conversation) => {
+    return () => {
+      setSelectedConversation(conversation);
+    };
+  }, []);
+
   useEffect(() => {
     onFetch({ page: 1 });
   }, []);
@@ -37,8 +45,13 @@ const MessagesPage = () => {
 
   return (
     <div className="flex h-screen max-h-screen overflow-hidden">
-      <Sidebar conversations={dataTable} onlineUsers={onlineUsers} />
-      <ChatMessages />
+      <Sidebar
+        conversations={dataTable}
+        onlineUsers={onlineUsers}
+        selectedConversation={selectedConversation}
+        onSelectConversation={handleSelectConversation}
+      />
+      <ChatMessages conversation={selectedConversation} />
       <ChatDetail />
     </div>
   );

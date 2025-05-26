@@ -8,15 +8,19 @@ import ConversationCard from "@/modules/messages/components/Card/ConversationCar
 type ConversationProps = {
   conversations: ConversationType[];
   onlineUsers: Set<number>;
+  selectedConversation: ConversationType | null;
+  onSelectConversation: (conversation: ConversationType) => () => void;
 };
+
 const Conversation = memo(
-  ({ conversations, onlineUsers }: ConversationProps) => {
+  ({ conversations, onlineUsers, selectedConversation, onSelectConversation }: ConversationProps) => {
     const isOnline = useMemo(
       () => (userId?: number) => {
         return userId ? onlineUsers.has(userId) : false;
       },
       [onlineUsers]
     );
+
     return (
       <div className="w-80 bg-white border-r border-gray-200">
         <div className="p-4">
@@ -33,14 +37,24 @@ const Conversation = memo(
 
         <nav className="mt-4 overflow-y-auto h-[calc(100vh-132px)]">
           {conversations.map((conversation) => (
-            <ConversationCard key={conversation.id} conversation={conversation} isOnline={isOnline(conversation.userId)} />
+            <ConversationCard
+              key={conversation.id}
+              conversation={conversation}
+              isOnline={isOnline(conversation.userId)}
+              isSelected={selectedConversation?.id === conversation.id}
+              onClick={onSelectConversation(conversation)}
+            />
           ))}
         </nav>
       </div>
     );
   },
   (prevProps, nextProps) => {
-    return prevProps.conversations === nextProps.conversations && prevProps.onlineUsers === nextProps.onlineUsers;
+    return (
+      prevProps.conversations === nextProps.conversations &&
+      prevProps.onlineUsers === nextProps.onlineUsers &&
+      prevProps.selectedConversation === nextProps.selectedConversation
+    );
   }
 );
 

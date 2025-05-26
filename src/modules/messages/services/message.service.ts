@@ -1,7 +1,7 @@
 import { ApiService } from "@/shared/services";
 
-const BaseUrl = "conversations";
+const BaseUrl = "messages";
 
-export function getConversations(params: { [key: string]: any }) {
+export function getMessages(params: { [key: string]: any }) {
   return ApiService.get(`${BaseUrl}`, params).then((resp) => resp);
 }

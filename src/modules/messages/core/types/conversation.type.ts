@@ -13,7 +13,6 @@ export type Conversation = {
   userId?: number;
   name: string;
   avatar: FileImage | null;
-  isOnline: boolean;
   lastMessage: string;
   lastMessageAt: string;
   participant: Participant;
