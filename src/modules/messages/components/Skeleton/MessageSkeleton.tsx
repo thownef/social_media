@@ -3,7 +3,7 @@ import { Skeleton } from "@heroui/react";
 const MessageSkeleton = () => {
   return (
     <>
-      {[...Array(12)].map((_, index) => (
+      {[...Array(7)].map((_, index) => (
         <div key={index} className={`max-w-xs mb-3 ${index % 2 === 0 ? "ml-auto" : ""}`}>
           <div className="flex items-end gap-2">
             {index % 2 !== 0 && <Skeleton className="w-8 h-8 rounded-full" />}

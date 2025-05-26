@@ -9,4 +9,5 @@ export type Message = {
   avatar: FileImage | null;
   createdAt: string;
   updatedAt: string;
+  isLoading?: boolean;
 };

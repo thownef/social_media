@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { Avatar, Button, Input } from "@heroui/react";
 import {
   MagnifyingGlassIcon,
@@ -13,12 +13,35 @@ import {
 import Messages from "@/modules/messages/components/Messages/Messages";
 import MessageSkeleton from "@/modules/messages/components/Skeleton/MessageSkeleton";
 import { Conversation } from "@/modules/messages/core/types/conversation.type";
+import { sendMessage } from "@/modules/messages/services/message.service";
+import { useMutation } from "@tanstack/react-query";
 
 type ChatMessagesProps = {
   conversation: Conversation | null;
 };
 
 const ChatMessages = ({ conversation }: ChatMessagesProps) => {
+  const [message, setMessage] = useState("");
+
+  const { mutate: sendMessageMutation, isPending } = useMutation({
+    mutationFn: sendMessage,
+    onSuccess: () => {
+      setMessage("");
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const trimmedMessage = message.trim();
+    if (!trimmedMessage || !conversation?.id) return;
+
+    sendMessageMutation({
+      conversation_id: conversation.id,
+      message: trimmedMessage,
+    });
+  };
+
   if (!conversation) {
     return (
       <div className="flex flex-col flex-1 border-r border-gray-200 items-center justify-center">
@@ -56,35 +79,49 @@ const ChatMessages = ({ conversation }: ChatMessagesProps) => {
         </Suspense>
       </div>
 
-      <div className="flex items-center gap-2 p-4 border-t border-gray-200">
-        <Button isIconOnly variant="flat" radius="full" size="sm" aria-label="Add">
-          <PlusIcon className="w-5 h-5" />
-        </Button>
-        <Button isIconOnly variant="flat" radius="full" size="sm" aria-label="Add image">
-          <PhotoIcon className="w-5 h-5" />
-        </Button>
-        <Button isIconOnly variant="flat" radius="full" size="sm" aria-label="Add GIF">
-          <GifIcon className="w-5 h-5" />
-        </Button>
-        <Button isIconOnly variant="flat" radius="full" size="sm" aria-label="Add sticker">
-          <FaceSmileIcon className="w-5 h-5" />
-        </Button>
+      <form onSubmit={handleSubmit}>
+        <div className="flex items-center gap-2 p-4 border-t border-gray-200">
+          <Button isIconOnly variant="flat" radius="full" size="sm" aria-label="Add">
+            <PlusIcon className="w-5 h-5" />
+          </Button>
+          <Button isIconOnly variant="flat" radius="full" size="sm" aria-label="Add image">
+            <PhotoIcon className="w-5 h-5" />
+          </Button>
+          <Button isIconOnly variant="flat" radius="full" size="sm" aria-label="Add GIF">
+            <GifIcon className="w-5 h-5" />
+          </Button>
+          <Button isIconOnly variant="flat" radius="full" size="sm" aria-label="Add sticker">
+            <FaceSmileIcon className="w-5 h-5" />
+          </Button>
 
-        <Input
-          type="text"
-          placeholder="Aa"
-          radius="full"
-          className="flex-1"
-          classNames={{
-            input: "bg-gray-100",
-            inputWrapper: "bg-gray-100 hover:bg-gray-100",
-          }}
-        />
+          <Input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Aa"
+            radius="full"
+            className="flex-1"
+            disabled={isPending}
+            classNames={{
+              input: "bg-gray-100",
+              inputWrapper: "bg-gray-100 hover:bg-gray-100",
+            }}
+          />
 
-        <Button isIconOnly color="primary" radius="full" size="sm" aria-label="Send">
-          <PaperAirplaneIcon className="w-5 h-5" />
-        </Button>
-      </div>
+          <Button
+            type="submit"
+            isIconOnly
+            color="primary"
+            radius="full"
+            size="sm"
+            aria-label="Send"
+            isLoading={isPending}
+            isDisabled={!message.trim()}
+          >
+            <PaperAirplaneIcon className="w-5 h-5" />
+          </Button>
+        </div>
+      </form>
     </div>
   );
 };

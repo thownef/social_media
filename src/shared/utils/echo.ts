@@ -12,7 +12,16 @@ class CustomEcho extends Echo<'reverb'> {
   }
 
   private(channel: string) {
-    return super.private(channel);
+    const privateChannel = super.private(channel);
+    const originalListen = privateChannel.listen.bind(privateChannel);
+
+    privateChannel.listen = (event: string, callback: Function) => {
+      return originalListen(event, (data: any) => {
+        callback(camelizeKeys(data));
+      });
+    };
+
+    return privateChannel;
   }
 
   join(channel: string) {
