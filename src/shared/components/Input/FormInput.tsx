@@ -45,7 +45,7 @@ const FormInput = (props: FormInputProps) => {
             labelPlacement={labelPlacement}
             placeholder={placeholder}
             className={className}
-            classNames={classNames}
+            classNames={{...classNames}}
             type={type}
             size={size}
             variant={variant}
