@@ -7,37 +7,24 @@ const LoginPage = () => {
       <div className="flex flex-col max-w-sm w-full bg-white rounded-lg py-16 px-8 shadow-sm">
         <Button
           variant="bordered"
-          className="w-full mb-4 h-10 bg-white border-[#ECF0F5] text-[#5D6778] font-normal"
+          className="w-full mb-3 h-11 bg-white border-gray-200 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
           startContent={
             <Image
               src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/J7JhcO5QIC/wprfnfa1_expires_30_days.png"
-              className="w-4 h-4 rounded"
+              className="w-5 h-5 rounded"
               alt="Google"
             />
           }
         >
-          Log in with Google
+          Continue with Google
         </Button>
 
-        <Button
-          variant="bordered"
-          className="w-full mb-8 h-10 bg-white border-[#ECF0F5] text-[#5D6778] font-normal"
-          startContent={
-            <Image
-              src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/J7JhcO5QIC/o6mul0xw_expires_30_days.png"
-              className="w-4 h-4 rounded"
-              alt="Email"
-            />
-          }
-        >
-          Log in with Email
-        </Button>
-
-        <div className="w-full mb-8 flex items-center">
-          <div className="flex-1 h-px bg-[#ECF0F5]"></div>
-          <span className="text-[#5D6778] text-xs font-bold px-4">OR</span>
-          <div className="flex-1 h-px bg-[#ECF0F5]"></div>
+        <div className="w-full mb-6 flex items-center">
+          <div className="flex-1 h-px bg-gray-200"></div>
+          <span className="text-gray-500 text-sm font-medium px-4">or</span>
+          <div className="flex-1 h-px bg-gray-200"></div>
         </div>
+
         <LoginForm />
       </div>
     </div>
