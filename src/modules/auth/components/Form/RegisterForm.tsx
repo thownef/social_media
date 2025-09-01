@@ -40,42 +40,38 @@ const RegisterForm = () => {
   });
 
   return (
-    <div className="flex w-full justify-center">
-      <form onSubmit={handleSubmit(onSubmitForm)} className="w-[460px] bg-white p-8 gap-3">
-        <div className="flex flex-col gap-3">
-          <h1 className="!text-3xl font-medium text-center leading-10 mb-8">Create an account</h1>
-          <div className="flex gap-3">
-            <FormInput control={control} label="First Name" name="firstName" placeholder="Enter your first name" isRequired />
-            <FormInput control={control} label="Last Name" name="lastName" placeholder="Enter your last name" isRequired />
-          </div>
-          <div className="flex gap-3">
-            <FormDatePicker label="Date of Birth" name="dateOfBirth" control={control} showMonthAndYearPickers isRequired />
-            <FormRadio className="w-full" label="Gender" name="gender" options={GenderOption} control={control} isRequired />
-          </div>
-          <FormInput control={control} label="Email" name="email" placeholder="Enter your email" />
-          <FormInput control={control} label="Password" name="password" type="password" placeholder="Enter your password" isRequired />
-          <FormInput
-            control={control}
-            label="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirm your password"
-            isRequired
-          />
+    <div className="w-full">
+      <form onSubmit={handleSubmit(onSubmitForm)} className="w-full flex flex-col gap-3">
+        <div className="flex gap-3">
+          <FormInput control={control} label="First Name" name="firstName" placeholder="Enter your first name" isRequired />
+          <FormInput control={control} label="Last Name" name="lastName" placeholder="Enter your last name" isRequired />
         </div>
-        <div className="mt-8">
-          <Button
-            disabled={!_.isEmpty(errors)}
-            className="w-full py-3 text-base text-white bg-[rgb(82,103,211)] rounded-lg font-medium hover:bg-[rgb(82,82,211)]"
-            type="submit"
-          >
-            Register
-          </Button>
+        <div className="flex gap-3">
+          <FormDatePicker label="Date of Birth" name="dateOfBirth" control={control} showMonthAndYearPickers isRequired />
+          <FormRadio className="w-full" label="Gender" name="gender" options={GenderOption} control={control} isRequired />
         </div>
+        <FormInput control={control} label="Email" name="email" placeholder="Enter your email" isRequired />
+        <FormInput control={control} label="Password" name="password" type="password" placeholder="Enter your password" isRequired />
+        <FormInput
+          control={control}
+          label="Confirm Password"
+          name="confirmPassword"
+          type="password"
+          placeholder="Confirm your password"
+          isRequired
+        />
 
-        <p className="text-center text-gray-600 mt-6">
+        <Button
+          disabled={!_.isEmpty(errors)}
+          className="w-full my-4 h-10 bg-[#0C1024] text-white font-normal"
+          type="submit"
+        >
+          Create Account
+        </Button>
+
+        <p className="text-center text-gray-600">
           Already have an account?{" "}
-          <Link to={PagePath.AUTH} className="text-[rgb(82,103,211)] hover:underline font-medium">
+          <Link to={PagePath.AUTH} className="text-[#0C1024] hover:underline font-medium">
             Sign in
           </Link>
         </p>
