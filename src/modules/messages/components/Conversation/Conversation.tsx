@@ -4,6 +4,7 @@ import { Input } from "@heroui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { type Conversation as ConversationType } from "@/modules/messages/core/types/conversation.type";
 import ConversationCard from "@/modules/messages/components/Card/ConversationCard";
+import { PagePath } from "@/shared/core/enum";
 
 type ConversationProps = {
   conversations: ConversationType[];
@@ -24,8 +25,12 @@ const Conversation = memo(
     return (
       <div className="w-80 bg-white border-r border-gray-200">
         <div className="p-4">
-          <Link to="/" className="!text-xl font-semibold text-[rgb(82,103,211)] block !mb-4">
-            Connected
+          <Link to={PagePath.HOME} className="flex shrink-0 items-center pr-1 gap-3 mb-4 w-fit">
+            <img
+              src={"https://storage.googleapis.com/tagjs-prod.appspot.com/v1/J7JhcO5QIC/0i5urkrr_expires_30_days.png"}
+              className="w-10 h-10 object-fill"
+            />
+            <span className="text-[#0C1024] !text-xl font-bold">Social</span>
           </Link>
           <Input
             type="search"
