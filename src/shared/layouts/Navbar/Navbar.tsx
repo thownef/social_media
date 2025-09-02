@@ -8,7 +8,7 @@ import { RootState } from "@/shared/store";
 const Navbar = () => {
   const auth = useSelector((state: RootState) => state.user.user);
   return (
-    <nav className="flex flex-wrap justify-between items-center bg-white border-b border-gray-200 px-10 py-2.5 sticky left-0 right-0 top-0 z-50">
+    <nav className="flex gap-6 justify-between items-center bg-white border-b border-gray-200 px-10 py-2.5 sticky left-0 right-0 top-0 z-50">
       <div className="w-3/10 flex items-center">
         <Link to={PagePath.HOME} className="flex shrink-0 items-center pr-1 gap-3">
           <img
