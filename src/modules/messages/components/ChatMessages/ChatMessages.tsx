@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Avatar, Button, Input } from "@heroui/react";
@@ -25,6 +25,7 @@ type ChatMessagesProps = {
 const ChatMessages = ({ conversation }: ChatMessagesProps) => {
   const auth = useSelector((state: RootState) => state.user.user);
   const [message, setMessage] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const queryClient = useQueryClient();
 
@@ -117,6 +118,11 @@ const ChatMessages = ({ conversation }: ChatMessagesProps) => {
       conversationId: conversation.id,
       message: trimmedMessage,
     });
+
+    // focus input after submit
+    requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
   };
 
   return (
@@ -170,7 +176,8 @@ const ChatMessages = ({ conversation }: ChatMessagesProps) => {
             placeholder="Aa"
             radius="full"
             className="flex-1"
-            disabled={isPending}
+            autoFocus
+            ref={inputRef}
             classNames={{
               input: "bg-gray-100",
               inputWrapper: "bg-gray-100 hover:bg-gray-100",
