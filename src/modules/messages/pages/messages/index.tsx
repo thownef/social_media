@@ -1,24 +1,66 @@
+import { useCallback, useEffect, useState } from "react";
 import { echo } from "@/shared/utils/echo";
-import { useEffect } from "react";
-
+import Sidebar from "@/modules/messages/components/Sidebar/Sidebar";
+import ChatMessages from "@/modules/messages/components/ChatMessages/ChatMessages";
+import ChatDetail from "@/modules/messages/components/ChatDetail/ChatDetail";
+import { Conversation } from "@/modules/messages/core/types/conversation.type";
+import useFetchDataTable from "@/shared/hooks/useFetchDataTable";
+import { fetchConversationList } from "@/modules/messages/server-action/conversation";
+import { User } from "@/shared/core/types";
 const MessagesPage = () => {
+  const { dataTable, onFetch } = useFetchDataTable<Conversation>(fetchConversationList);
+  const [onlineUsers, setOnlineUsers] = useState<Set<number>>(new Set());
+  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
+
+  const handleSelectConversation = useCallback((conversation: Conversation) => {
+    return () => {
+      setSelectedConversation(conversation);
+    };
+  }, []);
+
   useEffect(() => {
-    echo.join('online')
-      .here((users: any) => {
-        console.log("here", users);
+    onFetch({ page: 1 });
+  }, []);
+
+  useEffect(() => {
+    echo
+      .join("online")
+      .here((users: User[]) => {
+        setOnlineUsers(new Set(users.map((user) => user.id)));
       })
-      .joining((user: any) => {
-        console.log("joining", user);
+      .joining((user: User) => {
+        setOnlineUsers((prev) => new Set([...prev, user.id]));
       })
-      .leaving((user: any) => {
-        console.log("leaving", user);
+      .leaving((user: User) => {
+        setOnlineUsers((prev) => {
+          const next = new Set(prev);
+          next.delete(user.id);
+          return next;
+        });
       })
       .error((error: any) => {
         console.log("error", error);
       });
   }, []);
 
-  return <div>MessagePage</div>;
+  return (
+    <div className="flex h-screen max-h-screen overflow-hidden">
+      <Sidebar
+        conversations={dataTable}
+        onlineUsers={onlineUsers}
+        selectedConversation={selectedConversation}
+        onSelectConversation={handleSelectConversation}
+      />
+      {!selectedConversation ? (
+        <div className="flex flex-col flex-1 border-r border-gray-200 items-center justify-center">
+          <p className="text-gray-500">Select a conversation to start messaging</p>
+        </div>
+      ) : (
+        <ChatMessages conversation={selectedConversation} />
+      )}
+      <ChatDetail />
+    </div>
+  );
 };
 
 export default MessagesPage;

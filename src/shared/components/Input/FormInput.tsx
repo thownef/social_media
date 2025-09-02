@@ -11,6 +11,7 @@ type FormInputProps = {
   classNames?: { [key: string]: any };
   type?: "text" | "email" | "url" | "password" | "tel" | "search" | "file";
   size?: "sm" | "md" | "lg";
+  radius?: "none" | "sm" | "md" | "lg" | "full";
   variant?: "flat" | "bordered" | "faded" | "underlined";
   isRequired?: boolean;
   isDisabled?: boolean;
@@ -27,6 +28,7 @@ const FormInput = (props: FormInputProps) => {
     classNames,
     type = "text",
     size = "md",
+    radius = "md",
     variant = "bordered",
     isRequired = false,
     isDisabled = false,
@@ -48,6 +50,7 @@ const FormInput = (props: FormInputProps) => {
             classNames={{...classNames}}
             type={type}
             size={size}
+            radius={radius}
             variant={variant}
             errorMessage={error?.message}
             isInvalid={!!error}
