@@ -42,7 +42,7 @@ const SUGGESTED_FRIENDS: Friend[] = [
 
 const RightSidebar = () => {
   return (
-    <div className="flex flex-col items-end mt-4">
+    <div className="flex flex-col items-end max-h-[calc(100vh-76px)] overflow-y-auto">
       <div className="flex flex-col items-start bg-white w-full py-6 rounded-lg border border-solid border-[#ECF0F5]">
         <span className="text-[#0C1024] text-base font-bold ml-10">Suggested Friends</span>
         <Divider className="my-4" />
