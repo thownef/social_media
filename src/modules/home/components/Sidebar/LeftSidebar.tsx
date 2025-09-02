@@ -26,7 +26,7 @@ const LeftSidebar = () => {
   };
 
   return (
-    <div className="flex flex-col bg-white mt-4 rounded-xl border border-solid border-[#ECF0F5] shadow-sm hover:shadow-md transition-all duration-300">
+    <div className="flex flex-col bg-white rounded-xl border border-solid border-[#ECF0F5] shadow-sm hover:shadow-md transition-all duration-300">
       <div className="relative mb-12">
         <img src={bgDefault} className="w-full h-[72px] rounded-t-xl object-cover" />
         <img
