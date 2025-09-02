@@ -46,39 +46,30 @@ const LoginForm = () => {
   });
 
   return (
-    <div className="flex w-full justify-center">
-      <form onSubmit={handleSubmit(onSubmitForm)} className="w-[460px] bg-white p-8 gap-3">
-        <div className="flex flex-col gap-3">
-          <h1 className="!text-3xl font-medium text-center leading-10 mb-8">Sign In</h1>
-          <FormInput control={control} label="Email" name="email" placeholder="Enter your email" isRequired />
-          <FormInput control={control} label="Password" name="password" type="password" placeholder="Enter your password" isRequired />
-          <div className="flex items-center justify-between text-sm mt-2">
-            <label className="flex items-center gap-2 text-gray-600">
-              <input type="checkbox" className="rounded" />
-              Remember me
-            </label>
-            <Link to="/forgot-password" className="text-[rgb(82,103,211)] hover:underline">
-              Forgot password?
-            </Link>
-          </div>
-        </div>
-        <div className="mt-8">
-          <Button
-            type="submit"
-            className="w-full py-3 text-base bg-[rgb(82,103,211)] rounded-lg font-medium text-white hover:bg-[rgb(82,82,211)] transition-colors"
-          >
-            Sign In
-          </Button>
-        </div>
+    <form onSubmit={handleSubmit(onSubmitForm)}>
+      <FormInput className="w-full mb-4" control={control} placeholder="Email" name="email" />
 
-        <p className="text-center text-gray-600 mt-6">
+      <FormInput className="w-full mb-4" control={control} placeholder="Password" name="password" type="password" />
+
+      <div className="w-full flex justify-end mb-8">
+        <Link to="" className="text-[#5D6778] text-xs hover:text-[#0C1024] hover:underline transition-colors">
+          Forget Password?
+        </Link>
+      </div>
+
+      <Button className="w-full mb-8 h-10 bg-[#0C1024] text-white font-normal" type="submit">
+        Log in
+      </Button>
+
+      <div className="w-full text-center">
+        <span className="text-[#4B5669] text-sm">
           Don't have an account?{" "}
-          <Link to={PagePath.REGISTER} className="text-[rgb(82,103,211)] hover:underline font-medium">
+          <Link to={PagePath.REGISTER} className="text-[#0C1024] hover:underline font-medium">
             Sign up
           </Link>
-        </p>
-      </form>
-    </div>
+        </span>
+      </div>
+    </form>
   );
 };
 
