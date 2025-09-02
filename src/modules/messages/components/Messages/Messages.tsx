@@ -10,6 +10,7 @@ import { echo } from "@/shared/utils/echo";
 const Messages = ({ conversation }: { conversation: Conversation }) => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
+  // get message and use cursor paging to load more message
   const {
     data: { pages },
     fetchNextPage,
@@ -35,14 +36,24 @@ const Messages = ({ conversation }: { conversation: Conversation }) => {
       queryClient.setQueryData(["messages", conversation.id], (oldData: any) => {
         if (!oldData) return oldData;
 
+        const exists = oldData.pages.some((p: any) => p.data.some((m: any) => m.id === data.id));
+
+        if (exists) return oldData;
+
+        // Remove any optimistic loading message from the same user with same content
+        const cleanedPages = oldData.pages.map((page: any) => ({
+          ...page,
+          data: page.data.filter((m: any) => !(m.isLoading && m.userId === data.userId && m.message === data.message)),
+        }));
+
         return {
           ...oldData,
           pages: [
             {
-              ...oldData.pages[0],
-              data: [data, ...oldData.pages[0].data],
+              ...cleanedPages[0],
+              data: [data, ...cleanedPages[0].data],
             },
-            ...oldData.pages.slice(1),
+            ...cleanedPages.slice(1),
           ],
         };
       });
@@ -55,8 +66,6 @@ const Messages = ({ conversation }: { conversation: Conversation }) => {
     },
     [conversation.id]
   );
-
-  console.log(pages);
 
   useEffect(() => {
     const messagesContainer = loadMoreRef.current?.closest(".overflow-y-auto");

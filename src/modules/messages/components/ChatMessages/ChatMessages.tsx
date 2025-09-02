@@ -57,17 +57,36 @@ const ChatMessages = ({ conversation }: ChatMessagesProps) => {
     },
     onSuccess: (res, _, context) => {
       setMessage("");
-      
 
       if (context?.tempMessage) {
+        const serverMsg = res.data.data;
+
         queryClient.setQueryData(["messages", conversation.id], (oldData: any) => {
           if (!oldData) return oldData;
+
+          // Remove the optimistic message
+          const pagesWithoutTemp = oldData.pages.map((page: any) => ({
+            ...page,
+            data: page.data.filter((msg: any) => msg.id !== context.tempMessage.id),
+          }));
+
+          // If server message already exists (e.g., added by realtime), don't add again
+          const exists = pagesWithoutTemp.some((p: any) => p.data.some((m: any) => m.id === serverMsg.id));
+
+          if (exists) {
+            return { ...oldData, pages: pagesWithoutTemp };
+          }
+
+          // Otherwise, prepend server message to the first page
           return {
             ...oldData,
-            pages: oldData.pages.map((page: any) => ({
-              ...page,
-              data: page.data.map((msg: any) => (msg.id === context.tempMessage.id ? res.data.data : msg)),
-            })),
+            pages: [
+              {
+                ...pagesWithoutTemp[0],
+                data: [serverMsg, ...pagesWithoutTemp[0].data],
+              },
+              ...pagesWithoutTemp.slice(1),
+            ],
           };
         });
       }
