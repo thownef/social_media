@@ -47,7 +47,7 @@ const RightSidebar = () => {
         <span className="text-[#0C1024] text-base font-bold ml-10">Suggested Friends</span>
         <Divider className="my-4" />
         {SUGGESTED_FRIENDS.map((friend, idx) => (
-          <div className={`flex justify-between items-center self-stretch mx-8${idx !== SUGGESTED_FRIENDS.length - 1 ? " mb-6" : ""}`}>
+          <div className={`flex justify-between items-center self-stretch mx-8 ${idx !== SUGGESTED_FRIENDS.length - 1 ? " mb-6" : ""}`}>
             <div className="flex shrink-0 items-center gap-4">
               <img src={friend.avatar} alt={`${friend.name} avatar`} className="w-14 h-14 object-fill" loading="lazy" />
               <div className="flex flex-col shrink-0 items-start gap-1.5">
