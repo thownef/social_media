@@ -1,12 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Avatar, Button, Input } from "@heroui/react";
 import { BellIcon, MagnifyingGlassIcon, ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
 import { PagePath } from "@/shared/core/enum";
 import { RootState } from "@/shared/store";
+import { useCallback } from "react";
 
 const Navbar = () => {
   const auth = useSelector((state: RootState) => state.user.user);
+  const navigate = useNavigate();
+
+  const handleNavigate = useCallback((name: string) => {
+    return () => {
+      navigate(name);
+    };
+  }, []);
+
   return (
     <nav className="flex gap-6 justify-between items-center bg-white border-b border-gray-200 px-10 py-2.5 sticky left-0 right-0 top-0 z-50">
       <div className="w-3/10 flex items-center">
@@ -29,13 +38,12 @@ const Navbar = () => {
       </div>
 
       <div className="w-3/10 flex items-center justify-end gap-4">
-        <Button radius="full" variant="flat" size="md" isIconOnly>
+        <Button onClick={handleNavigate(PagePath.MESSAGES)} radius="full" variant="flat" size="md" isIconOnly>
           <ChatBubbleLeftRightIcon className="w-5 h-5" />
         </Button>
         <Button radius="full" variant="flat" size="md" isIconOnly>
           <BellIcon className="w-5 h-5" />
         </Button>
-
         <Button radius="full" variant="flat" size="md" isIconOnly>
           <Avatar showFallback className=" " src={auth?.profile?.avatar?.link} alt="user photo" />
         </Button>
